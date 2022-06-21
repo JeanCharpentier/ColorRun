@@ -9,11 +9,35 @@ public static class CF
 {
     public static Color _colPrimary { get; private set; } = new Color32(230, 0, 126, 255);
     public static Color _colSecondary { get; private set; } = new Color32(0, 130, 230, 255);
+    public static Color _colTertiary { get; private set; } = new Color32(255, 255, 0, 255);
     public static Color[] _colList { get; private set; } = { _colPrimary, _colSecondary };
+
+    public static bool _CB { get; private set; } = false;
 
     public static Vector3 ScreenToWorld(Camera camera, Vector3 position)
     {
         position.z = camera.nearClipPlane;
         return camera.ScreenToWorldPoint(position);
+    }
+
+    public static void ColorBlind(bool pBool)
+    {
+        _CB = pBool;
+        if (pBool)
+        {
+            _colList[0] = _colSecondary;
+            _colList[1] =  _colTertiary;
+            Debug.LogWarning("CB :" + pBool);
+        }else
+        {
+            _colList[0] = _colPrimary;
+            _colList[1] = _colSecondary;
+            Debug.LogWarning("CB :" + pBool);
+        }
+    }
+    public static int DateToInt()
+    {
+        int date = DateTime.Now.DayOfYear;
+        return date;
     }
 }

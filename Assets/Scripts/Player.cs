@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -27,6 +26,8 @@ public class Player : MonoBehaviour, IPlayer
 
         pBody = gameObject.GetComponent<Rigidbody>();
         isOnGround = false;
+        _state = 1;
+        SwitchColor();
     }
 
     // Update is called once per frame
@@ -62,8 +63,7 @@ public class Player : MonoBehaviour, IPlayer
     {
         if (other.gameObject.name == "KillZ")
         {
-            Debug.LogError("GameOver");
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene("MainMenu");
         }
     }
 

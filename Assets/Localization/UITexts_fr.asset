@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: UITexts_fr
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: fr
+  m_SharedData: {fileID: 11400000, guid: fd262fdcacf2c1342a3fd43f84f9efbe, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 97121161216
+    m_Localized: Jouer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 195746025472
+    m_Localized: Boutique
+    m_Metadata:
+      m_Items: []
+  - m_Id: 299320168448
+    m_Localized: Options
+    m_Metadata:
+      m_Items: []
+  - m_Id: 396250533888
+    m_Localized: Partie rapide
+    m_Metadata:
+      m_Items: []
+  - m_Id: 501389152256
+    m_Localized: "D\xE9fi quotidien"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 969758691328
+    m_Localized: "D\xE9fi al\xE9atoire"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1062918377472
+    m_Localized: Mode Daltonien
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1160100401152
+    m_Localized: Retour
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6805356761088
+    m_Localized: Langue
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []
