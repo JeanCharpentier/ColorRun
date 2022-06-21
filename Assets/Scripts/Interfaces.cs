@@ -18,6 +18,9 @@ public interface IGameManager
     float GetSpeed();
     float IncreaseSpeed();
     float DecreaseSpeed();
+
+    int GetLifes();
+    void SetLifes(int pLifes);
 }
 
 public interface IPlayer
@@ -25,4 +28,10 @@ public interface IPlayer
     void Jump();
     void VDash();
     void SwitchColor();
+}
+
+
+public interface IHUD
+{
+    void ChangeSprite(int pLifes);
 }

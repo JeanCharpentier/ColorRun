@@ -7,13 +7,14 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour, IPlayer
 {
     public int _jumpForce;
+    public CameraShake _cameraShake;
     bool isOnGround;
+    bool isJumping;
     Rigidbody pBody;
     int _state; // 0 = Rose, 1 = Bleu
 
     IGameManager srvGManager;
     IPlatform srvPlatform;
-
     void Awake()
     {
         ServicesLocator.AddService<IPlayer>(this);
@@ -26,6 +27,7 @@ public class Player : MonoBehaviour, IPlayer
 
         pBody = gameObject.GetComponent<Rigidbody>();
         isOnGround = false;
+        isJumping = false;
         _state = 1;
         SwitchColor();
     }
@@ -45,9 +47,15 @@ public class Player : MonoBehaviour, IPlayer
                 if(_platform.GetState() != _state)
                 {
                     Debug.LogWarning($"Perte de vie !!!");
+                    srvGManager.SetLifes(srvGManager.GetLifes() - 1);
                 }
             }
+            if (!isOnGround && isJumping)
+            {
+                StartCoroutine(_cameraShake.Shake(0.1f, 0.1f));
+            }
             isOnGround = true;
+            isJumping = false;
         }
     }
 
@@ -72,6 +80,7 @@ public class Player : MonoBehaviour, IPlayer
         if(isOnGround)
         {
             pBody.AddForce(Vector3.up * _jumpForce);
+            isJumping = true;
         }
     }
 

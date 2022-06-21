@@ -17,14 +17,6 @@ public class MainMenu : MonoBehaviour
     private void Start()
     {
         tgl_ColorBlind.isOn = CF._CB;
-        /*if (LocalizationSettings.SelectedLocale == LocalizationSettings.AvailableLocales.Locales[PlayerPrefs.GetInt("locale")])
-        {
-            tgl_Language.isOn = true;
-        }
-        else
-        {
-            tgl_Language.isOn = false;
-        }*/
     }
 
     public void PlayMenu()

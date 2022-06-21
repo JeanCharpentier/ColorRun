@@ -10,7 +10,11 @@ public class GameManager : MonoBehaviour,IGameManager
     float _currentSpeed;
     [SerializeField]
     float _incSpeed;
+    [SerializeField]
+    [Range(1,3)]
+    int _lifes;
 
+    IHUD srvHUD;
     void Awake()
     {
         ServicesLocator.AddService<IGameManager>(this);
@@ -18,7 +22,7 @@ public class GameManager : MonoBehaviour,IGameManager
     }
     void Start()
     {
-
+        srvHUD = ServicesLocator.GetService<IHUD>();
     }
 
     // Update is called once per frame
@@ -47,5 +51,16 @@ public class GameManager : MonoBehaviour,IGameManager
     {
         throw new System.NotImplementedException();
         //return _currentSpeed;
+    }
+
+    public int GetLifes()
+    {
+        return _lifes;
+    }
+
+    public void SetLifes(int pLifes)
+    {
+        _lifes = pLifes;
+        srvHUD.ChangeSprite(_lifes);
     }
 }
