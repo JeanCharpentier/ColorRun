@@ -6,6 +6,11 @@ public interface IPlatformManager
 {
     void ResetPlatform(Platform pPlatform);
 }
+public interface IMovingManager
+{
+    void ChangeSpeed(float pSpeed);
+}
+
 
 public interface IPlatform
 {

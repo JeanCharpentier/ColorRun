@@ -8,11 +8,11 @@ public class Platform : MonoBehaviour, IPlatform
     public float _speed;
     public int _length;
     Vector3 _pos;
-    public bool _isTP;
+    public bool isTP;
     public int _state;
 
     MeshRenderer rend;
-    float opacity;
+    float _opacity;
     IPlatformManager srvPManager;
 
     void Awake()
@@ -23,7 +23,7 @@ public class Platform : MonoBehaviour, IPlatform
     void Start()
     {
         srvPManager = ServicesLocator.GetService<IPlatformManager>();
-        _isTP = false;
+        isTP = false;
     }
 
     // Update is called once per frame
@@ -39,17 +39,17 @@ public class Platform : MonoBehaviour, IPlatform
             if (rend.materials[1].GetFloat("_Alpha") < 1.0f)
             {
                 //float dist = Vector3.Distance(other.position, transform.position);
-                opacity = transform.position.x * (transform.position.x / 100);
-                Debug.Log(opacity);
-                rend.materials[1].SetFloat("_Alpha", opacity);
+                _opacity = transform.position.x * (transform.position.x / 100);
+                Debug.Log(_opacity);
+                rend.materials[1].SetFloat("_Alpha", _opacity);
             }
         }
 
         // Remise dans le sac avant tirage
-        if (transform.position.x < (-4) && !_isTP)
+        if (transform.position.x < (-4) && !isTP)
         {
             srvPManager.ResetPlatform(this);
-            _isTP = true;
+            isTP = true;
         }
     }
 

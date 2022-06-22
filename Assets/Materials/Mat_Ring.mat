@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mat_Blue
+  m_Name: Mat_Ring
   m_Shader: {fileID: -6465566751694194690, guid: 0930fd0aea43e8c419c4222c5caca84a,
     type: 3}
   m_ValidKeywords: []
@@ -75,7 +75,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Alpha: 1
+    - _Alpha: 0.536
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
     - _BumpScale: 1
@@ -90,15 +90,15 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Saturation: 1
+    - _Saturation: 0.94
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _Strength: 30
+    - _Strength: 40.9
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.9019608, g: 0, b: 0.49411765, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 1024, g: 0, b: 132.73877, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &3491209459146906426

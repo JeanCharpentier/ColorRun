@@ -10,11 +10,16 @@ public class Player : MonoBehaviour, IPlayer
     public CameraShake _cameraShake;
     bool isOnGround;
     bool isJumping;
-    Rigidbody pBody;
+    Rigidbody _playerBody;
     int _state; // 0 = Rose, 1 = Bleu
 
+
+    // Invulnerabilité
+    bool isGod;
+    float tiDuration;
+    float tiTimer;
+
     IGameManager srvGManager;
-    IPlatform srvPlatform;
     void Awake()
     {
         ServicesLocator.AddService<IPlayer>(this);
@@ -23,39 +28,58 @@ public class Player : MonoBehaviour, IPlayer
     void Start()
     {
         srvGManager = ServicesLocator.GetService<IGameManager>();
-        srvPlatform = ServicesLocator.GetService<IPlatform>();
 
-        pBody = gameObject.GetComponent<Rigidbody>();
+        _playerBody = gameObject.GetComponent<Rigidbody>();
         isOnGround = false;
         isJumping = false;
         _state = 1;
+
+
+        isGod = false;
+        tiTimer = 0.0f;
+        tiDuration = 5.0f;
+
         SwitchColor();
     }
 
     // Update is called once per frame
     void Update()
     {
-        gameObject.GetComponentsInChildren<MeshFilter>()[0].transform.Rotate(0,0,(-srvGManager.GetSpeed()/Mathf.PI));
+        gameObject.GetComponentsInChildren<MeshFilter>()[0].transform.Rotate(0,0,(-srvGManager.GetSpeed()/Mathf.PI)); // Rotation de la balle
+
+        if(isGod) // Fin de l'invulnerabilité
+        {
+            if(tiTimer >= tiDuration)
+            {
+                Invulnerability(false);
+                tiTimer = 0.0f;
+            }
+            tiTimer += Time.deltaTime;
+        }
     }
 
     void OnCollisionEnter(Collision pCol){
-        if(pCol.collider.gameObject.CompareTag("platform"))
+        isOnGround = true;
+        isJumping = false;
+
+        if (!isGod)
         {
-            if(pCol.gameObject.tag.Equals("platform"))
+            if (pCol.collider.gameObject.CompareTag("platform"))
             {
-                Platform _platform = pCol.gameObject.GetComponent<Platform>();
-                if(_platform.GetState() != _state)
+                if (pCol.gameObject.tag.Equals("platform"))
                 {
-                    Debug.LogWarning($"Perte de vie !!!");
-                    srvGManager.SetLifes(srvGManager.GetLifes() - 1);
+                    Platform _platform = pCol.gameObject.GetComponent<Platform>();
+                    if (_platform.GetState() != _state)
+                    {
+                        srvGManager.SetLifes(srvGManager.GetLifes() - 1);
+                        Invulnerability(true);
+                    }
+                }
+                if (!isOnGround && isJumping)
+                {
+                    StartCoroutine(_cameraShake.Shake(0.1f, 0.1f));
                 }
             }
-            if (!isOnGround && isJumping)
-            {
-                StartCoroutine(_cameraShake.Shake(0.1f, 0.1f));
-            }
-            isOnGround = true;
-            isJumping = false;
         }
     }
 
@@ -79,7 +103,7 @@ public class Player : MonoBehaviour, IPlayer
     {
         if(isOnGround)
         {
-            pBody.AddForce(Vector3.up * _jumpForce);
+            _playerBody.AddForce(Vector3.up * _jumpForce);
             isJumping = true;
         }
     }
@@ -88,7 +112,7 @@ public class Player : MonoBehaviour, IPlayer
     {
         if(!isOnGround)
         {
-            pBody.AddForce(Vector3.down * _jumpForce * 1.3f);
+            _playerBody.AddForce(Vector3.down * _jumpForce * 1.3f);
         }
     }
 
@@ -103,5 +127,17 @@ public class Player : MonoBehaviour, IPlayer
             _state = 0;
         }
         GetComponentsInChildren<MeshFilter>()[0].GetComponent<MeshRenderer>().sharedMaterials[1].color = CF._colList[_state];
+    }
+
+    public void Invulnerability(bool pBool)
+    {
+        if(pBool)
+        {
+            transform.GetChild(1).GetComponentInChildren<MeshRenderer>().enabled = true;
+        }else
+        {
+            transform.GetChild(1).GetComponentInChildren<MeshRenderer>().enabled = false;
+        }
+        isGod = pBool;
     }
 }

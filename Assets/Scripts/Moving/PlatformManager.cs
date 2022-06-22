@@ -2,39 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlatformManager : MonoBehaviour, IPlatformManager
+public class PlatformManager : MonoBehaviour, IPlatformManager, IMovingManager
 {
 
     List<Platform> _platformList;
     public List<Platform> _platformBag;
     Platform _tmpPlatform;
     
-
-    float curSpeed;
-
-    //Timer
-    float tTimer;
-    [SerializeField]
-    float tTimerRate;
+    float _curSpeed;
 
     // Services
     IGameManager srvGManager;
 
+    private void Awake()
+    {
+        ServicesLocator.AddService<IPlatformManager>(this);
+        ServicesLocator.AddService<IMovingManager>(this);
+    }
     // Start is called before the first frame update
     void Start()
     {
-        ServicesLocator.AddService<IPlatformManager>(this);
         srvGManager = ServicesLocator.GetService<IGameManager>();
-        curSpeed = srvGManager.GetSpeed();
-
-        tTimer = 0;
+        _curSpeed = srvGManager.GetSpeed();
 
         float offset = 0;
         _platformList = new List<Platform>();
         do{
             int index = Random.Range(0,_platformBag.Count-1);
             _tmpPlatform = Instantiate<Platform>(_platformBag[index],new Vector3(offset,0,0),Quaternion.identity);
-            _tmpPlatform._speed = curSpeed;
+            _tmpPlatform._speed = _curSpeed;
             _tmpPlatform._state = 0;
             _tmpPlatform.GetComponentsInChildren<MeshFilter>()[0].GetComponent<MeshRenderer>().sharedMaterials[1].color = CF._colList[0];
             _tmpPlatform.GetComponentsInChildren<MeshFilter>()[0].GetComponent<MeshRenderer>().sharedMaterials[0].color = Color.grey;
@@ -50,18 +46,18 @@ public class PlatformManager : MonoBehaviour, IPlatformManager
     // Update is called once per frame
     void Update()
     {
-        if(tTimer >= tTimerRate) {
-            curSpeed = srvGManager.IncreaseSpeed();
+        /*if(tTimer >= tTimerRate) {
+            _curSpeed = srvGManager.IncreaseSpeed();
             foreach(Platform p in _platformList){
-                p._speed = curSpeed;
+                p._speed = _curSpeed;
             }
             foreach(Platform p in _platformBag){
-                p._speed = curSpeed;
+                p._speed = _curSpeed;
             }
             tTimer = 0;
-            Debug.LogWarning("Speed = "+curSpeed);
+            Debug.LogWarning("Speed = "+_curSpeed);
         }
-        tTimer += Time.deltaTime; 
+        tTimer += Time.deltaTime; */
     }
 
     public void ResetPlatform(Platform pPlatform) // Ajoute la plateforme "détruite" au sac
@@ -81,7 +77,7 @@ public class PlatformManager : MonoBehaviour, IPlatformManager
         nextPlatformPos.position = new Vector3(nextPlatformPos.position.x,Random.Range(-1.5f,1.5f)*0.5f,0);
 
         _platformBag[index].transform.position = nextPlatformPos.position;
-        _platformBag[index]._isTP = false;
+        _platformBag[index].isTP = false;
 
         // Change la couleur des plateformes avant de lesretirer du sac
         int color = Random.Range(0, CF._colList.Length);
@@ -93,5 +89,17 @@ public class PlatformManager : MonoBehaviour, IPlatformManager
 
         _platformList.Add(_platformBag[index]);
         _platformBag.Remove(_platformBag[index]);
+    }
+
+    public void ChangeSpeed(float pSpeed)
+    {
+        foreach (Platform p in _platformList)
+        {
+            p._speed = pSpeed;
+        }
+        foreach (Platform p in _platformBag)
+        {
+            p._speed = pSpeed;
+        }
     }
 }

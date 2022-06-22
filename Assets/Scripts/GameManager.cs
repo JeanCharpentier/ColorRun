@@ -7,14 +7,19 @@ public class GameManager : MonoBehaviour,IGameManager
 {
     // Start is called before the first frame update
     [SerializeField]
-    float _currentSpeed;
+    float _speed;
     [SerializeField]
     float _incSpeed;
     [SerializeField]
     [Range(1,3)]
     int _lifes;
 
+    float tTimer;
+    [SerializeField]
+    float tTimerRate;
+
     IHUD srvHUD;
+    IMovingManager srvMManager;
     void Awake()
     {
         ServicesLocator.AddService<IGameManager>(this);
@@ -23,28 +28,36 @@ public class GameManager : MonoBehaviour,IGameManager
     void Start()
     {
         srvHUD = ServicesLocator.GetService<IHUD>();
+        srvMManager = ServicesLocator.GetService<IMovingManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (tTimer >= tTimerRate)
+        {
+            _speed = IncreaseSpeed();
+            srvMManager.ChangeSpeed(_speed);
+            tTimer = 0;
+            Debug.LogWarning("Speed = " + _speed);
+        }
+        tTimer += Time.deltaTime;
     }
 
     public float GetSpeed()
     {
-        return _currentSpeed;
+        return _speed;
     }
 
     public void SetSpeed(float pSpeed)
     {
-        _currentSpeed += pSpeed;
+        _speed += pSpeed;
     }
 
     public float IncreaseSpeed()
     {
         SetSpeed(_incSpeed);
-        return _currentSpeed;
+        return _speed;
     }
 
     public float DecreaseSpeed()
