@@ -54,6 +54,22 @@ MonoBehaviour:
     m_Localized: Langue
     m_Metadata:
       m_Items: []
+  - m_Id: 648118477475840
+    m_Localized: Ajouter essai
+    m_Metadata:
+      m_Items: []
+  - m_Id: 648541137489920
+    m_Localized: Ressayer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 648615569608704
+    m_Localized: Accueil
+    m_Metadata:
+      m_Items: []
+  - m_Id: 649872384413696
+    m_Localized: continues restants
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

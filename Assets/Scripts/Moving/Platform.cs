@@ -14,17 +14,18 @@ public class Platform : MonoBehaviour, IPlatform
     MeshRenderer rend;
     float _opacity;
     IPlatformManager srvPManager;
-
     void Awake()
     {
         ServicesLocator.AddService<IPlatform>(this);
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
         srvPManager = ServicesLocator.GetService<IPlatformManager>();
         isTP = false;
     }
+    // Start is called before the first frame update
+    /*void Start()
+    {
+        srvPManager = ServicesLocator.GetService<IPlatformManager>();
+        isTP = false;
+    }*/
 
     // Update is called once per frame
     void Update()
@@ -56,5 +57,10 @@ public class Platform : MonoBehaviour, IPlatform
     public int GetState()
     {
         return _state;
+    }
+
+    public void ChangeSpeed(float pSpeed)
+    {
+        _speed = pSpeed;
     }
 }

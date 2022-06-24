@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlatformManager : MonoBehaviour, IPlatformManager, IMovingManager
+public class PlatformManager : MonoBehaviour, IPlatformManager,IMovingManager
 {
 
     List<Platform> _platformList;
@@ -46,18 +46,7 @@ public class PlatformManager : MonoBehaviour, IPlatformManager, IMovingManager
     // Update is called once per frame
     void Update()
     {
-        /*if(tTimer >= tTimerRate) {
-            _curSpeed = srvGManager.IncreaseSpeed();
-            foreach(Platform p in _platformList){
-                p._speed = _curSpeed;
-            }
-            foreach(Platform p in _platformBag){
-                p._speed = _curSpeed;
-            }
-            tTimer = 0;
-            Debug.LogWarning("Speed = "+_curSpeed);
-        }
-        tTimer += Time.deltaTime; */
+ 
     }
 
     public void ResetPlatform(Platform pPlatform) // Ajoute la plateforme "détruite" au sac
@@ -73,13 +62,13 @@ public class PlatformManager : MonoBehaviour, IPlatformManager, IMovingManager
     void MovePlatform() {
         int index = Random.Range(0,_platformBag.Count-1);
         Platform prevPlatform = _platformList[_platformList.Count-1];
-        Transform nextPlatformPos = prevPlatform.transform.Find("NextPlatform");
+        Transform nextPlatformPos = prevPlatform.transform.Find("NextPlatform"); // On récupère le slot pour coller la nouvelle plateforme
         nextPlatformPos.position = new Vector3(nextPlatformPos.position.x,Random.Range(-1.5f,1.5f)*0.5f,0);
 
         _platformBag[index].transform.position = nextPlatformPos.position;
         _platformBag[index].isTP = false;
 
-        // Change la couleur des plateformes avant de lesretirer du sac
+        // Change la couleur des plateformes avant de les retirer du sac
         int color = Random.Range(0, CF._colList.Length);
         _platformBag[index]._state = color; // On met l'état correspondant à la couleur
         for(int i = 0;i <= _platformBag[index]._length - 1; i++)

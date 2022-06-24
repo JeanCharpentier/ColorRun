@@ -54,6 +54,22 @@ MonoBehaviour:
     m_Localized: Language
     m_Metadata:
       m_Items: []
+  - m_Id: 648118477475840
+    m_Localized: Get continue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 648541137489920
+    m_Localized: Retry
+    m_Metadata:
+      m_Items: []
+  - m_Id: 648615569608704
+    m_Localized: Home
+    m_Metadata:
+      m_Items: []
+  - m_Id: 649872384413696
+    m_Localized: continues left
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

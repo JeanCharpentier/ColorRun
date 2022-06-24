@@ -51,6 +51,22 @@ MonoBehaviour:
     m_Key: Key_Language
     m_Metadata:
       m_Items: []
+  - m_Id: 648118477475840
+    m_Key: Key_MoreContinue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 648541137489920
+    m_Key: Key_Retry
+    m_Metadata:
+      m_Items: []
+  - m_Id: 648615569608704
+    m_Key: Key_Home
+    m_Metadata:
+      m_Items: []
+  - m_Id: 649872384413696
+    m_Key: Key_Continues
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

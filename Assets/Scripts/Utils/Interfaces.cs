@@ -19,13 +19,13 @@ public interface IPlatform
 
 public interface IGameManager
 {
-    void SetSpeed(float pSpeed);
+    void SetSpeed(float pSpeed, bool pReset);
     float GetSpeed();
     float IncreaseSpeed();
     float DecreaseSpeed();
 
     int GetLifes();
-    void SetLifes(int pLifes);
+    void SetLifes(int pLifes, bool pReset);
 }
 
 public interface IPlayer

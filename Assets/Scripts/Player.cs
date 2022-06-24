@@ -10,6 +10,7 @@ public class Player : MonoBehaviour, IPlayer
     public CameraShake _cameraShake;
     bool isOnGround;
     bool isJumping;
+    bool isDashing;
     Rigidbody _playerBody;
     int _state; // 0 = Rose, 1 = Bleu
 
@@ -18,6 +19,8 @@ public class Player : MonoBehaviour, IPlayer
     bool isGod;
     float tiDuration;
     float tiTimer;
+
+    GameObject _goMenu;
 
     IGameManager srvGManager;
     void Awake()
@@ -32,6 +35,7 @@ public class Player : MonoBehaviour, IPlayer
         _playerBody = gameObject.GetComponent<Rigidbody>();
         isOnGround = false;
         isJumping = false;
+        isDashing = false;
         _state = 1;
 
 
@@ -40,6 +44,8 @@ public class Player : MonoBehaviour, IPlayer
         tiDuration = 5.0f;
 
         SwitchColor();
+
+        _goMenu = GameObject.Find("GO_Canvas");
     }
 
     // Update is called once per frame
@@ -59,8 +65,22 @@ public class Player : MonoBehaviour, IPlayer
     }
 
     void OnCollisionEnter(Collision pCol){
+        
+        if (!isOnGround && isJumping)
+        {
+            if(isDashing)
+            {
+                StartCoroutine(_cameraShake.Shake(0.1f, 0.3f));
+            }else
+            {
+                StartCoroutine(_cameraShake.Shake(0.1f, 0.07f));
+            }
+            
+        }
+
         isOnGround = true;
         isJumping = false;
+        isDashing = false;
 
         if (!isGod)
         {
@@ -71,13 +91,16 @@ public class Player : MonoBehaviour, IPlayer
                     Platform _platform = pCol.gameObject.GetComponent<Platform>();
                     if (_platform.GetState() != _state)
                     {
-                        srvGManager.SetLifes(srvGManager.GetLifes() - 1);
-                        Invulnerability(true);
+                        if (srvGManager.GetLifes() > 0)
+                        {
+                            srvGManager.SetLifes(srvGManager.GetLifes() - 1, false);
+                            Invulnerability(true);
+                        }else
+                        {
+                            _goMenu.GetComponent<Canvas>().enabled = true;
+                            Time.timeScale = 0;
+                        }
                     }
-                }
-                if (!isOnGround && isJumping)
-                {
-                    StartCoroutine(_cameraShake.Shake(0.1f, 0.1f));
                 }
             }
         }
@@ -113,6 +136,7 @@ public class Player : MonoBehaviour, IPlayer
         if(!isOnGround)
         {
             _playerBody.AddForce(Vector3.down * _jumpForce * 1.3f);
+            isDashing = true;
         }
     }
 
