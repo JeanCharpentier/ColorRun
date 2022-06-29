@@ -64,7 +64,19 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 649872384413696
-    m_Key: Key_Continues
+    m_Key: Key_ContinuesLeft
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2604506502090752
+    m_Key: Key_Save
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2613072046804992
+    m_Key: Key_Reset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2837645312872448
+    m_Key: Key_Welcome
     m_Metadata:
       m_Items: []
   m_Metadata:

@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class PlatformManager : MonoBehaviour, IPlatformManager,IMovingManager
 {
-
+    [SerializeField]
     List<Platform> _platformList;
     public List<Platform> _platformBag;
     Platform _tmpPlatform;
+
     
     float _curSpeed;
 
@@ -23,6 +24,7 @@ public class PlatformManager : MonoBehaviour, IPlatformManager,IMovingManager
     void Start()
     {
         srvGManager = ServicesLocator.GetService<IGameManager>();
+        
         _curSpeed = srvGManager.GetSpeed();
 
         float offset = 0;
@@ -35,12 +37,40 @@ public class PlatformManager : MonoBehaviour, IPlatformManager,IMovingManager
             _tmpPlatform.GetComponentsInChildren<MeshFilter>()[0].GetComponent<MeshRenderer>().sharedMaterials[1].color = CF._colList[0];
             _tmpPlatform.GetComponentsInChildren<MeshFilter>()[0].GetComponent<MeshRenderer>().sharedMaterials[0].color = Color.grey;
             _platformList.Add(_tmpPlatform);
-            
+
             _platformBag.RemoveAt(index);
             
             offset = _tmpPlatform._length+_tmpPlatform.transform.position.x;
             
         } while(_platformBag.Count > 0);
+    }
+
+    public void ReplayGame()
+    {
+        foreach(Platform p in _platformList)
+        {
+            _platformBag.Add(p);
+        }
+
+        _platformList.Clear();
+
+        float offset = 0;
+
+        do
+        {
+            int index = Random.Range(0, _platformBag.Count - 1);
+
+            _tmpPlatform = _platformBag[index];
+            _tmpPlatform.transform.position = new Vector3(offset, 0, 0);
+            _tmpPlatform.ResetThisPlatform();
+
+            _platformList.Add(_tmpPlatform);
+
+            _platformBag.RemoveAt(index);
+
+            offset = _tmpPlatform._length + _tmpPlatform.transform.position.x;
+
+        } while (_platformBag.Count > 0);
     }
 
     // Update is called once per frame

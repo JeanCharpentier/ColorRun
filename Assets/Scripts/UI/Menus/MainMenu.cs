@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
 using UnityEngine.SceneManagement;
@@ -17,27 +18,69 @@ public class MainMenu : MonoBehaviour
     private void Start()
     {
         tgl_ColorBlind.isOn = CF._CB;
+
+        Application.targetFrameRate = 60;
+
+        if (PlayerPrefs.HasKey("score"))
+        {
+            transform.GetChild(0).GetChild(3).GetComponentInChildren<TextMeshProUGUI>().enabled = true;
+            transform.GetChild(0).GetChild(4).GetComponentInChildren<TextMeshProUGUI>().enabled = true;
+            transform.GetChild(0).GetChild(4).GetComponent<TextMeshProUGUI>().SetText(PlayerPrefs.GetInt("score").ToString());
+        }
+
+        if(PlayerPrefs.HasKey("playerName"))
+        {
+            // Si le joueur s'est déjà enregistré
+            EnableCanvas(0);
+            transform.GetChild(0).GetChild(6).GetComponentInChildren<TextMeshProUGUI>().SetText(PlayerPrefs.GetString("playerName"));
+        }else
+        {
+            EnableCanvas(3);
+        }
+    }
+    private void OnEnable()
+    {
+        transform.GetChild(0).GetChild(4).GetComponent<TextMeshProUGUI>().SetText(PlayerPrefs.GetInt("score").ToString());
     }
 
+    void EnableCanvas(int pCanvas)
+    {
+        int _canvasCount;
+        _canvasCount = transform.childCount;
+        for(int i = 0;i<=_canvasCount-1;i++)
+        {
+            if(i == pCanvas)
+            {
+                transform.GetChild(i).GetComponentInChildren<Canvas>().enabled = true;
+            }else
+            {
+                transform.GetChild(i).GetComponentInChildren<Canvas>().enabled = false;
+            }
+        }
+    }
     public void PlayMenu()
     {
-        transform.GetChild(0).GetComponentInChildren<Canvas>().enabled = false;
-        transform.GetChild(1).GetComponentInChildren<Canvas>().enabled = true;
-        transform.GetChild(2).GetComponentInChildren<Canvas>().enabled = false;
+        EnableCanvas(1);
     }
 
     public void OptionsMenu()
     {
-        transform.GetChild(0).GetComponentInChildren<Canvas>().enabled = false;
-        transform.GetChild(1).GetComponentInChildren<Canvas>().enabled = false;
-        transform.GetChild(2).GetComponentInChildren<Canvas>().enabled = true;
+        EnableCanvas(2);
     }
 
     public void BackMenu()
     {
-        transform.GetChild(0).GetComponentInChildren<Canvas>().enabled = true;
-        transform.GetChild(1).GetComponentInChildren<Canvas>().enabled = false;
-        transform.GetChild(2).GetComponentInChildren<Canvas>().enabled = false;
+        EnableCanvas(0);
+    }
+
+    public void ControlsMenu()
+    {
+        EnableCanvas(4);
+    }
+
+    public void ShareMenu()
+    {
+        EnableCanvas(5);
     }
 
     public void SetColorBlind()
@@ -54,18 +97,21 @@ public class MainMenu : MonoBehaviour
     public void PlayNormal()
     {
         SetSeed(_seed);
+        PlayerPrefs.SetInt("mode", 1);
         SceneManager.LoadScene("MainScene");
     }
 
     public void PlayDaily()
     {
-        SetSeed(CF.DateToInt());
+        SetSeed(CF.DateToInt('n'));
+        PlayerPrefs.SetInt("mode", 2);
         SceneManager.LoadScene("MainScene");
     }
 
     public void PlayRandom()
     {
         SetSeed(Random.Range(400, 9000));
+        PlayerPrefs.SetInt("mode", 3);
         SceneManager.LoadScene("MainScene");
     }
 
@@ -86,5 +132,24 @@ public class MainMenu : MonoBehaviour
             LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[0];
             PlayerPrefs.SetInt("locale", 0);
         }
+    }
+
+    public void SavePlayerName()
+    {
+        string year = CF.DateToInt('y').ToString().Substring(CF.DateToInt('y').ToString().Length - 2); // Formattage de l'année pour créer la clé Player
+        string playerKey = "#" + CF.DateToInt('n').ToString() + year; // Création de la clé Player
+        string playerName = transform.GetChild(3).GetComponentInChildren<TMP_InputField>().text + playerKey;
+        PlayerPrefs.SetString("playerName", playerName); // Enregistrement
+        PlayerPrefs.Save();
+        transform.GetChild(0).GetComponentInChildren<Canvas>().enabled = true;
+        transform.GetChild(0).GetChild(6).GetComponentInChildren<TextMeshProUGUI>().SetText(playerName);
+
+        transform.GetChild(3).GetComponentInChildren<Canvas>().enabled = false;
+    }
+
+    public void ResetPrefs()
+    {
+        PlayerPrefs.DeleteAll();
+        SceneManager.LoadScene("MainMenu");
     }
 }

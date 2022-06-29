@@ -14,6 +14,8 @@ public class Player : MonoBehaviour, IPlayer
     Rigidbody _playerBody;
     int _state; // 0 = Rose, 1 = Bleu
 
+    Vector3 _basePos;
+
 
     // Invulnerabilité
     bool isGod;
@@ -23,6 +25,7 @@ public class Player : MonoBehaviour, IPlayer
     GameObject _goMenu;
 
     IGameManager srvGManager;
+
     void Awake()
     {
         ServicesLocator.AddService<IPlayer>(this);
@@ -32,11 +35,13 @@ public class Player : MonoBehaviour, IPlayer
     {
         srvGManager = ServicesLocator.GetService<IGameManager>();
 
+
         _playerBody = gameObject.GetComponent<Rigidbody>();
         isOnGround = false;
         isJumping = false;
         isDashing = false;
         _state = 1;
+        _basePos = transform.position;
 
 
         isGod = false;
@@ -68,9 +73,10 @@ public class Player : MonoBehaviour, IPlayer
         
         if (!isOnGround && isJumping)
         {
-            if(isDashing)
+            if(isDashing) // Si c'est un Dash, on shake plus fort !
             {
                 StartCoroutine(_cameraShake.Shake(0.1f, 0.3f));
+                Handheld.Vibrate(); // Vibrations du tel ?
             }else
             {
                 StartCoroutine(_cameraShake.Shake(0.1f, 0.07f));
@@ -118,7 +124,8 @@ public class Player : MonoBehaviour, IPlayer
     {
         if (other.gameObject.name == "KillZ")
         {
-            SceneManager.LoadScene("MainMenu");
+            _goMenu.GetComponent<Canvas>().enabled = true;
+            Time.timeScale = 0;
         }
     }
 
@@ -142,15 +149,18 @@ public class Player : MonoBehaviour, IPlayer
 
     public void SwitchColor()
     {
-        if (_state == 0)
+        if(!isOnGround)
         {
-            _state = 1;
+            if (_state == 0)
+            {
+                _state = 1;
+            }
+            else
+            {
+                _state = 0;
+            }
+            GetComponentsInChildren<MeshFilter>()[0].GetComponent<MeshRenderer>().sharedMaterials[1].color = CF._colList[_state];
         }
-        else
-        {
-            _state = 0;
-        }
-        GetComponentsInChildren<MeshFilter>()[0].GetComponent<MeshRenderer>().sharedMaterials[1].color = CF._colList[_state];
     }
 
     public void Invulnerability(bool pBool)
@@ -163,5 +173,12 @@ public class Player : MonoBehaviour, IPlayer
             transform.GetChild(1).GetComponentInChildren<MeshRenderer>().enabled = false;
         }
         isGod = pBool;
+    }
+
+    public void ResetPlayer()
+    {
+        transform.position = _basePos;
+        _state = 0;
+        Invulnerability(true);
     }
 }

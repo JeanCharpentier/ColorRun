@@ -35,9 +35,28 @@ public static class CF
             Debug.LogWarning("CB :" + pBool);
         }
     }
-    public static int DateToInt()
+    public static int DateToInt(char pType)
     {
-        int date = DateTime.Now.DayOfYear;
+        int date;
+        switch (pType)
+        {
+            case 'd':
+                date = DateTime.Now.Day;
+                break;
+            case 'm':
+                date = DateTime.Now.Month;
+                break;
+            case 'y':
+                date = DateTime.Now.Year;
+                break;
+            case 'n':
+                date = DateTime.Now.DayOfYear;
+                break;
+            default:
+                date = DateTime.Now.DayOfYear;
+                break;
+
+        }
         return date;
     }
 }

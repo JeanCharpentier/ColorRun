@@ -1,33 +1,45 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GoMenu : MonoBehaviour
+public class GoMenu : MonoBehaviour,IGOMenu
 {
     IGameManager srvGManager;
 
+
+    private void Awake()
+    {
+        ServicesLocator.AddService<IGOMenu>(this);
+    }
     private void Start()
     {
         srvGManager = ServicesLocator.GetService<IGameManager>();
     }
     public void BackMenu()
     {
+        srvGManager.SaveScore();
         SceneManager.LoadScene("MainMenu");
     }
 
-    public void GetContinue()
+    public void GetMoreContinue()
     {
         // Lancer une pub ?
+        srvGManager.FillContinues();
+        srvGManager.SaveScore();
     }
 
     public void Retry()
     {
         this.GetComponent<Canvas>().enabled = false;
-        srvGManager.SetLifes(0, true);
-        srvGManager.SetSpeed(0.0f, true);
+        srvGManager.ResetGame();
         Time.timeScale = 1;
+        srvGManager.SaveScore();
+    }
 
-        // Decrease COntinues
+    public void ChangeContinues(int pContinues)
+    {
+        transform.GetChild(5).GetComponent<TextMeshProUGUI>().SetText(pContinues.ToString());
     }
 }

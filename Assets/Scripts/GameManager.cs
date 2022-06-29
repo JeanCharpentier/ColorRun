@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour,IGameManager
 {
@@ -17,13 +18,25 @@ public class GameManager : MonoBehaviour,IGameManager
     int _lifes;
     int _score;
     int _continues;
+    int _gameMode; //1 = normal, 2 = daily, 3 = random
 
-    float tTimer;
+
+    // Timer Augmentation vitesse
+    float _speedTimer;
     [SerializeField]
-    float tTimerRate;
+    float _speedTimerRate;
+
+    // Timer Augmentation Score
+    float _scoreTimer;
+    [SerializeField]
+    float _scoreTimerRate;
 
     IHUD srvHUD;
     IMovingManager srvMManager;
+    IPlatformManager srvPManager;
+    IPlayer srvPlayer;
+    IGOMenu srvGOMenu;
+    IScoreManager srvSManager;
     void Awake()
     {
         ServicesLocator.AddService<IGameManager>(this);
@@ -33,23 +46,41 @@ public class GameManager : MonoBehaviour,IGameManager
     {
         srvHUD = ServicesLocator.GetService<IHUD>();
         srvMManager = ServicesLocator.GetService<IMovingManager>();
+        srvPManager = ServicesLocator.GetService<IPlatformManager>();
+        srvPlayer = ServicesLocator.GetService<IPlayer>();
+        srvGOMenu = ServicesLocator.GetService<IGOMenu>();
+        srvSManager = ServicesLocator.GetService<IScoreManager>();
+
         _score = 0;
         _continues = 3;
         _speed = _baseSpeed;
         _lifes = _baseLifes;
+        _gameMode = PlayerPrefs.GetInt("mode");
+
+        srvHUD.UpdateSpeed(_speed);
+
+        Time.timeScale = 1;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (tTimer >= tTimerRate)
+        if (_speedTimer >= _speedTimerRate) // Timer augmentation vitesse
         {
             _speed = IncreaseSpeed();
             srvMManager.ChangeSpeed(_speed);
-            tTimer = 0;
-            //Debug.LogWarning("Speed = " + _speed);
+            srvHUD.UpdateSpeed(_speed);
+            _speedTimer = 0;
         }
-        tTimer += Time.deltaTime;
+        _speedTimer += Time.deltaTime;
+
+        if(_scoreTimer >= _scoreTimerRate/_speed)
+        {
+            _score += 1;
+            srvHUD.UpdateScore(_score);
+            _scoreTimer = 0;
+        }
+        _scoreTimer += Time.deltaTime;
     }
 
     public float GetSpeed()
@@ -61,7 +92,6 @@ public class GameManager : MonoBehaviour,IGameManager
     {
         if(pReset)
         {
-            _speed = _baseSpeed;
             srvMManager.ChangeSpeed(_speed);
         }
         else
@@ -97,5 +127,47 @@ public class GameManager : MonoBehaviour,IGameManager
             _lifes = pLifes;
         }
         srvHUD.ChangeSprite(_lifes);
+    }
+
+    public void ResetGame()
+    {
+        if(_continues > 0)
+        {
+            srvPManager.ReplayGame();
+            SetLifes(0, true);
+            SetSpeed(0.0f, true);
+            srvPlayer.ResetPlayer();
+            _continues--;
+            
+            srvGOMenu.ChangeContinues(_continues); // Changer l'affichage sur le GOMenu
+        }
+        else
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
+    }
+
+    public void FillContinues()
+    {
+        _continues++;
+        srvGOMenu.ChangeContinues(_continues); // Changer l'affichage sur le GOMenu
+    }
+
+    public int GetScore()
+    {
+        return _score;
+    }
+
+    public void SaveScore()
+    {
+        if(PlayerPrefs.GetInt("mode") == 1) // On upgrade le Highscore seulement si le mode est "normal"
+        {
+            if(_score > PlayerPrefs.GetInt("score") || PlayerPrefs.HasKey("score"))
+            {
+                PlayerPrefs.SetInt("score", _score);
+                //srvSManager.SetHighscore(_score, PlayerPrefs.GetString("playerName"));//Upload to Leaderboard 
+            }
+        }
+        
     }
 }
