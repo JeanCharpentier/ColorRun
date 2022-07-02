@@ -9,7 +9,7 @@ public interface IPlatformManager
 }
 public interface IMovingManager
 {
-    void ChangeSpeed(float pSpeed);
+    //void ChangeSpeed(float pSpeed);
 }
 
 
@@ -43,6 +43,9 @@ public interface IPlayer
     void VDash();
     void SwitchColor();
     void ResetPlayer();
+    void ChangeSpeed(float pSpeed);
+
+    Vector3 GetPos();
 }
 
 

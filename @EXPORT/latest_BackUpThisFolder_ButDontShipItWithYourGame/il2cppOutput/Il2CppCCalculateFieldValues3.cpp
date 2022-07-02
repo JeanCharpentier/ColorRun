@@ -9829,34 +9829,42 @@ struct PlatformManager_t017860F2930DE7D6A3E7C95E0981A08D9F89B8EE  : public MonoB
 // Player
 struct Player_tF98BD09D3495D2FF1922E5D34866AEAC6AE2DF74  : public MonoBehaviour_t532A11E69716D348D8AA7F854AFCBFCB8AD17F71
 {
-	// System.Int32 Player::_jumpForce
-	int32_t ____jumpForce_4;
 	// CameraShake Player::_cameraShake
-	CameraShake_tAC55122F42E0B2A0581731E4C9799A5A8A0D7CA1* ____cameraShake_5;
+	CameraShake_tAC55122F42E0B2A0581731E4C9799A5A8A0D7CA1* ____cameraShake_4;
+	// System.Int32 Player::_jumpForce
+	int32_t ____jumpForce_5;
+	// System.Single Player::_speed
+	float ____speed_6;
+	// UnityEngine.Vector3 Player::_pos
+	Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ____pos_7;
 	// System.Boolean Player::isOnGround
-	bool ___isOnGround_6;
+	bool ___isOnGround_8;
 	// System.Boolean Player::isJumping
-	bool ___isJumping_7;
+	bool ___isJumping_9;
 	// System.Boolean Player::isDashing
-	bool ___isDashing_8;
+	bool ___isDashing_10;
 	// UnityEngine.Rigidbody Player::_playerBody
-	Rigidbody_t268697F5A994213ED97393309870968BC1C7393C* ____playerBody_9;
+	Rigidbody_t268697F5A994213ED97393309870968BC1C7393C* ____playerBody_11;
 	// System.Int32 Player::_state
-	int32_t ____state_10;
+	int32_t ____state_12;
 	// UnityEngine.Vector3 Player::_basePos
-	Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ____basePos_11;
+	Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ____basePos_13;
+	// UnityEngine.Vector3 Player::_move
+	Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ____move_14;
 	// System.Boolean Player::canVibrate
-	bool ___canVibrate_12;
+	bool ___canVibrate_15;
 	// System.Boolean Player::isGod
-	bool ___isGod_13;
+	bool ___isGod_16;
 	// System.Single Player::tiDuration
-	float ___tiDuration_14;
+	float ___tiDuration_17;
 	// System.Single Player::tiTimer
-	float ___tiTimer_15;
+	float ___tiTimer_18;
 	// UnityEngine.GameObject Player::_goMenu
-	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ____goMenu_16;
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ____goMenu_19;
 	// IGameManager Player::srvGManager
-	RuntimeObject* ___srvGManager_17;
+	RuntimeObject* ___srvGManager_20;
+	// System.Int32 Player::_colNB
+	int32_t ____colNB_21;
 };
 
 // RotatingObject
@@ -10773,9 +10781,9 @@ IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable9368[8] =
 IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable9369[5] = 
 {
 	static_cast<int32_t>(offsetof(PlatformManager_t017860F2930DE7D6A3E7C95E0981A08D9F89B8EE, ____platformList_4)),static_cast<int32_t>(offsetof(PlatformManager_t017860F2930DE7D6A3E7C95E0981A08D9F89B8EE, ____platformBag_5)),static_cast<int32_t>(offsetof(PlatformManager_t017860F2930DE7D6A3E7C95E0981A08D9F89B8EE, ____tmpPlatform_6)),static_cast<int32_t>(offsetof(PlatformManager_t017860F2930DE7D6A3E7C95E0981A08D9F89B8EE, ____curSpeed_7)),static_cast<int32_t>(offsetof(PlatformManager_t017860F2930DE7D6A3E7C95E0981A08D9F89B8EE, ___srvGManager_8)),};
-IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable9370[14] = 
+IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable9370[18] = 
 {
-	static_cast<int32_t>(offsetof(Player_tF98BD09D3495D2FF1922E5D34866AEAC6AE2DF74, ____jumpForce_4)),static_cast<int32_t>(offsetof(Player_tF98BD09D3495D2FF1922E5D34866AEAC6AE2DF74, ____cameraShake_5)),static_cast<int32_t>(offsetof(Player_tF98BD09D3495D2FF1922E5D34866AEAC6AE2DF74, ___isOnGround_6)),static_cast<int32_t>(offsetof(Player_tF98BD09D3495D2FF1922E5D34866AEAC6AE2DF74, ___isJumping_7)),static_cast<int32_t>(offsetof(Player_tF98BD09D3495D2FF1922E5D34866AEAC6AE2DF74, ___isDashing_8)),static_cast<int32_t>(offsetof(Player_tF98BD09D3495D2FF1922E5D34866AEAC6AE2DF74, ____playerBody_9)),static_cast<int32_t>(offsetof(Player_tF98BD09D3495D2FF1922E5D34866AEAC6AE2DF74, ____state_10)),static_cast<int32_t>(offsetof(Player_tF98BD09D3495D2FF1922E5D34866AEAC6AE2DF74, ____basePos_11)),static_cast<int32_t>(offsetof(Player_tF98BD09D3495D2FF1922E5D34866AEAC6AE2DF74, ___canVibrate_12)),static_cast<int32_t>(offsetof(Player_tF98BD09D3495D2FF1922E5D34866AEAC6AE2DF74, ___isGod_13)),static_cast<int32_t>(offsetof(Player_tF98BD09D3495D2FF1922E5D34866AEAC6AE2DF74, ___tiDuration_14)),static_cast<int32_t>(offsetof(Player_tF98BD09D3495D2FF1922E5D34866AEAC6AE2DF74, ___tiTimer_15)),static_cast<int32_t>(offsetof(Player_tF98BD09D3495D2FF1922E5D34866AEAC6AE2DF74, ____goMenu_16)),static_cast<int32_t>(offsetof(Player_tF98BD09D3495D2FF1922E5D34866AEAC6AE2DF74, ___srvGManager_17)),};
+	static_cast<int32_t>(offsetof(Player_tF98BD09D3495D2FF1922E5D34866AEAC6AE2DF74, ____cameraShake_4)),static_cast<int32_t>(offsetof(Player_tF98BD09D3495D2FF1922E5D34866AEAC6AE2DF74, ____jumpForce_5)),static_cast<int32_t>(offsetof(Player_tF98BD09D3495D2FF1922E5D34866AEAC6AE2DF74, ____speed_6)),static_cast<int32_t>(offsetof(Player_tF98BD09D3495D2FF1922E5D34866AEAC6AE2DF74, ____pos_7)),static_cast<int32_t>(offsetof(Player_tF98BD09D3495D2FF1922E5D34866AEAC6AE2DF74, ___isOnGround_8)),static_cast<int32_t>(offsetof(Player_tF98BD09D3495D2FF1922E5D34866AEAC6AE2DF74, ___isJumping_9)),static_cast<int32_t>(offsetof(Player_tF98BD09D3495D2FF1922E5D34866AEAC6AE2DF74, ___isDashing_10)),static_cast<int32_t>(offsetof(Player_tF98BD09D3495D2FF1922E5D34866AEAC6AE2DF74, ____playerBody_11)),static_cast<int32_t>(offsetof(Player_tF98BD09D3495D2FF1922E5D34866AEAC6AE2DF74, ____state_12)),static_cast<int32_t>(offsetof(Player_tF98BD09D3495D2FF1922E5D34866AEAC6AE2DF74, ____basePos_13)),static_cast<int32_t>(offsetof(Player_tF98BD09D3495D2FF1922E5D34866AEAC6AE2DF74, ____move_14)),static_cast<int32_t>(offsetof(Player_tF98BD09D3495D2FF1922E5D34866AEAC6AE2DF74, ___canVibrate_15)),static_cast<int32_t>(offsetof(Player_tF98BD09D3495D2FF1922E5D34866AEAC6AE2DF74, ___isGod_16)),static_cast<int32_t>(offsetof(Player_tF98BD09D3495D2FF1922E5D34866AEAC6AE2DF74, ___tiDuration_17)),static_cast<int32_t>(offsetof(Player_tF98BD09D3495D2FF1922E5D34866AEAC6AE2DF74, ___tiTimer_18)),static_cast<int32_t>(offsetof(Player_tF98BD09D3495D2FF1922E5D34866AEAC6AE2DF74, ____goMenu_19)),static_cast<int32_t>(offsetof(Player_tF98BD09D3495D2FF1922E5D34866AEAC6AE2DF74, ___srvGManager_20)),static_cast<int32_t>(offsetof(Player_tF98BD09D3495D2FF1922E5D34866AEAC6AE2DF74, ____colNB_21)),};
 IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable9371[3] = 
 {
 	static_cast<int32_t>(offsetof(HUD_t2B4CACC874B2D963F455E2D523544772E04311D3, ____lifesList_4)),static_cast<int32_t>(offsetof(HUD_t2B4CACC874B2D963F455E2D523544772E04311D3, ____maxFPS_5)),static_cast<int32_t>(offsetof(HUD_t2B4CACC874B2D963F455E2D523544772E04311D3, ___srvGManager_6)),};

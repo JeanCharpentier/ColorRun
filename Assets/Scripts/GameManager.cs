@@ -64,6 +64,7 @@ public class GameManager : MonoBehaviour,IGameManager
         _gameMode = PlayerPrefs.GetInt("mode");
 
         srvHUD.UpdateSpeed(_speed);
+        srvPlayer.ChangeSpeed(_speed);
 
         Time.timeScale = 1; // On remet le temps "en route"
 
@@ -85,7 +86,7 @@ public class GameManager : MonoBehaviour,IGameManager
         if (_speedTimer >= _speedTimerRate) // Timer augmentation vitesse
         {
             _speed = IncreaseSpeed();
-            srvMManager.ChangeSpeed(_speed);
+            srvPlayer.ChangeSpeed(_speed);
             srvHUD.UpdateSpeed(_speed);
             _speedTimer = 0;
         }
@@ -118,7 +119,7 @@ public class GameManager : MonoBehaviour,IGameManager
     {
         if(pReset)
         {
-            srvMManager.ChangeSpeed(_speed);
+            srvPlayer.ChangeSpeed(_speed);
         }
         else
         {

@@ -41,7 +41,8 @@ public class InputsManager : Singleton<InputsManager>
     {
         if(OnStartTouch != null)
         {
-            OnStartTouch(CF.ScreenToWorld(mainCamera, playerControls.Touch.PrimaryPosition.ReadValue<Vector2>()), (float)context.startTime);
+            OnStartTouch(playerControls.Touch.PrimaryPosition.ReadValue<Vector2>(), (float)context.startTime);
+            //OnStartTouch(CF.ScreenToWorld(mainCamera, playerControls.Touch.PrimaryPosition.ReadValue<Vector2>()), (float)context.startTime);
         }
     }
 
@@ -49,12 +50,14 @@ public class InputsManager : Singleton<InputsManager>
     {
         if (OnEndTouch != null)
         {
-            OnEndTouch(CF.ScreenToWorld(mainCamera, playerControls.Touch.PrimaryPosition.ReadValue<Vector2>()), (float)context.time);
+            OnEndTouch(playerControls.Touch.PrimaryPosition.ReadValue<Vector2>(), (float)context.time);
+            //OnEndTouch(CF.ScreenToWorld(mainCamera, playerControls.Touch.PrimaryPosition.ReadValue<Vector2>()), (float)context.time);
         }
     }
 
     public Vector2 PrimaryPosition()
     {
-        return CF.ScreenToWorld(mainCamera, playerControls.Touch.PrimaryPosition.ReadValue<Vector2>());
+        return playerControls.Touch.PrimaryPosition.ReadValue<Vector2>();
+        //return CF.ScreenToWorld(mainCamera, playerControls.Touch.PrimaryPosition.ReadValue<Vector2>());
     }
 }

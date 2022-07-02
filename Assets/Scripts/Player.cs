@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-//[DefaultExecutionOrder(-1)]
 public class Player : MonoBehaviour, IPlayer
 {
-    public int _jumpForce;
+
     public CameraShake _cameraShake;
+
+    public int _jumpForce;
+    float _speed;
+    Vector3 _pos;
     bool isOnGround;
     bool isJumping;
     bool isDashing;
@@ -15,6 +18,7 @@ public class Player : MonoBehaviour, IPlayer
     int _state; // 0 = Rose, 1 = Bleu
 
     Vector3 _basePos;
+    Vector3 _move;
 
     bool canVibrate;
 
@@ -27,7 +31,6 @@ public class Player : MonoBehaviour, IPlayer
     GameObject _goMenu;
 
     IGameManager srvGManager;
-
     void Awake()
     {
         ServicesLocator.AddService<IPlayer>(this);
@@ -37,14 +40,12 @@ public class Player : MonoBehaviour, IPlayer
     {
         srvGManager = ServicesLocator.GetService<IGameManager>();
 
-
         _playerBody = gameObject.GetComponent<Rigidbody>();
         isOnGround = false;
         isJumping = true;
         isDashing = false;
         _state = 0;
         _basePos = transform.position;
-
 
         isGod = false;
         tiTimer = 0.0f;
@@ -62,11 +63,14 @@ public class Player : MonoBehaviour, IPlayer
 
         _goMenu = GameObject.Find("GO_Canvas");
     }
-
-    // Update is called once per frame
     void Update()
     {
-        gameObject.GetComponentsInChildren<MeshFilter>()[0].transform.Rotate(0,0,(-srvGManager.GetSpeed()/Mathf.PI)*Time.deltaTime*160); // Rotation de la balle
+
+        _move = Vector3.right * _speed * Time.deltaTime;
+        //_move = new Vector3(1 * _speed * Time.deltaTime, _playerBody.position.y, 0);
+        _playerBody.MovePosition(transform.position + _move);
+
+        gameObject.GetComponentsInChildren<MeshFilter>()[0].transform.Rotate(0,0,(-_speed/Mathf.PI)*Time.deltaTime*160); // Rotation de la balle
 
         if(isGod) // Fin de l'invulnerabilité
         {
@@ -79,8 +83,8 @@ public class Player : MonoBehaviour, IPlayer
         }
     }
 
-    void OnCollisionEnter(Collision pCol){
-        
+    void OnCollisionEnter(Collision pCol)
+    {
         if (!isOnGround && isJumping)
         {
             if(isDashing) // Si c'est un Dash, on shake plus fort !
@@ -105,20 +109,17 @@ public class Player : MonoBehaviour, IPlayer
         {
             if (pCol.collider.gameObject.CompareTag("platform"))
             {
-                if (pCol.gameObject.tag.Equals("platform"))
+                Platform _platform = pCol.gameObject.GetComponent<Platform>();
+                if (_platform.GetState() != _state)
                 {
-                    Platform _platform = pCol.gameObject.GetComponent<Platform>();
-                    if (_platform.GetState() != _state)
+                    if (srvGManager.GetLifes() > 0)
                     {
-                        if (srvGManager.GetLifes() > 0)
-                        {
-                            srvGManager.SetLifes(srvGManager.GetLifes() - 1, false);
-                            Invulnerability(true);
-                        }else
-                        {
-                            _goMenu.GetComponent<Canvas>().enabled = true;
-                            Time.timeScale = 0;
-                        }
+                        srvGManager.SetLifes(srvGManager.GetLifes() - 1, false);
+                        Invulnerability(true);
+                    }else
+                    {
+                        _goMenu.GetComponent<Canvas>().enabled = true;
+                        Time.timeScale = 0;
                     }
                 }
             }
@@ -127,7 +128,7 @@ public class Player : MonoBehaviour, IPlayer
 
     void OnCollisionExit(Collision pCol)
     {
-        if (pCol.collider.gameObject.CompareTag("platform"))
+        if (pCol.collider.gameObject.CompareTag("platform") && isJumping)
         {
             isOnGround = false;
         }
@@ -135,7 +136,7 @@ public class Player : MonoBehaviour, IPlayer
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.name == "KillZ")
+        if (other.gameObject.name == "KillZVolume")
         {
             _goMenu.GetComponent<Canvas>().enabled = true;
             Time.timeScale = 0;
@@ -144,10 +145,10 @@ public class Player : MonoBehaviour, IPlayer
 
     public void Jump()
     {
-        if(isOnGround)
+        if (isOnGround)
         {
             _playerBody.AddForce(Vector3.up * _jumpForce);
-            isJumping = true;
+            isJumping = true; 
         }
     }
 
@@ -194,5 +195,15 @@ public class Player : MonoBehaviour, IPlayer
         _state = 0;
         GetComponentsInChildren<MeshFilter>()[0].GetComponent<MeshRenderer>().sharedMaterials[1].color = CF._colList[_state];
         Invulnerability(true);
+    }
+
+    public void ChangeSpeed(float pSpeed)
+    {
+        _speed = pSpeed;
+    }
+
+    public Vector3 GetPos()
+    {
+        return _playerBody.position;
     }
 }

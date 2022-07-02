@@ -5030,10 +5030,6 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* String_Format_m74FC0A1259DFA02F3DF6
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void DebugLogHandler_Internal_Log_mCDF82FF0477166C9DDB0ECEDB48EE4BCBBDB4F79 (int32_t ___level0, int32_t ___options1, String_t* ___msg2, Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C* ___obj3, const RuntimeMethod* method) ;
 // System.Void UnityEngine.DebugLogHandler::Internal_LogException(System.Exception,UnityEngine.Object)
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void DebugLogHandler_Internal_LogException_mE01E7F56C7441415DDACFFFAC2C4E6FE15B76DB5 (Exception_t* ___ex0, Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C* ___obj1, const RuntimeMethod* method) ;
-// System.Void UnityEngine.Debug::DrawLine(UnityEngine.Vector3,UnityEngine.Vector3,UnityEngine.Color,System.Single,System.Boolean)
-IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Debug_DrawLine_m327C20CF784AABE55B9F10B1B296C38347595FAB (Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___start0, Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___end1, Color_tD001788D726C3A7F1379BEED0260B9591F440C1F ___color2, float ___duration3, bool ___depthTest4, const RuntimeMethod* method) ;
-// System.Void UnityEngine.Debug::DrawLine_Injected(UnityEngine.Vector3&,UnityEngine.Vector3&,UnityEngine.Color&,System.Single,System.Boolean)
-IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Debug_DrawLine_Injected_m4458CF7A0F443E6055447C0695795EBC7C463AF1 (Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2* ___start0, Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2* ___end1, Color_tD001788D726C3A7F1379BEED0260B9591F440C1F* ___color2, float ___duration3, bool ___depthTest4, const RuntimeMethod* method) ;
 // UnityEngine.ILogger UnityEngine.Debug::get_unityLogger()
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR RuntimeObject* Debug_get_unityLogger_mA872400E9E585FCD6A2DE1717748A458545DE8A4_inline (const RuntimeMethod* method) ;
 // System.Void UnityEngine.DebugLogHandler::.ctor()
@@ -12980,45 +12976,6 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* Debug_get_unityLogger_mA872400
 		return L_0;
 	}
 }
-// System.Void UnityEngine.Debug::DrawLine(UnityEngine.Vector3,UnityEngine.Vector3,UnityEngine.Color,System.Single)
-IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Debug_DrawLine_m07A0411487CA5ED1E1DB3093E9E326F70B9A16FD (Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___start0, Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___end1, Color_tD001788D726C3A7F1379BEED0260B9591F440C1F ___color2, float ___duration3, const RuntimeMethod* method) 
-{
-	static bool s_Il2CppMethodInitialized;
-	if (!s_Il2CppMethodInitialized)
-	{
-		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
-		s_Il2CppMethodInitialized = true;
-	}
-	bool V_0 = false;
-	{
-		V_0 = (bool)1;
-		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_0 = ___start0;
-		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_1 = ___end1;
-		Color_tD001788D726C3A7F1379BEED0260B9591F440C1F L_2 = ___color2;
-		float L_3 = ___duration3;
-		bool L_4 = V_0;
-		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
-		Debug_DrawLine_m327C20CF784AABE55B9F10B1B296C38347595FAB(L_0, L_1, L_2, L_3, L_4, NULL);
-		return;
-	}
-}
-// System.Void UnityEngine.Debug::DrawLine(UnityEngine.Vector3,UnityEngine.Vector3,UnityEngine.Color,System.Single,System.Boolean)
-IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Debug_DrawLine_m327C20CF784AABE55B9F10B1B296C38347595FAB (Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___start0, Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___end1, Color_tD001788D726C3A7F1379BEED0260B9591F440C1F ___color2, float ___duration3, bool ___depthTest4, const RuntimeMethod* method) 
-{
-	static bool s_Il2CppMethodInitialized;
-	if (!s_Il2CppMethodInitialized)
-	{
-		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
-		s_Il2CppMethodInitialized = true;
-	}
-	{
-		float L_0 = ___duration3;
-		bool L_1 = ___depthTest4;
-		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
-		Debug_DrawLine_Injected_m4458CF7A0F443E6055447C0695795EBC7C463AF1((&___start0), (&___end1), (&___color2), L_0, L_1, NULL);
-		return;
-	}
-}
 // System.Int32 UnityEngine.Debug::ExtractStackTraceNoAlloc(System.Byte*,System.Int32,System.String)
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t Debug_ExtractStackTraceNoAlloc_m34102CFB9E68FE7B468574F30C6E2D508CF91704 (uint8_t* ___buffer0, int32_t ___bufferMax1, String_t* ___projectFolder2, const RuntimeMethod* method) 
 {
@@ -13599,15 +13556,6 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Debug__cctor_m367B08F18665FE9E6E959914F1
 		Il2CppCodeGenWriteBarrier((void**)(&((Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_StaticFields*)il2cpp_codegen_static_fields_for(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var))->___s_Logger_1), (void*)L_3);
 		return;
 	}
-}
-// System.Void UnityEngine.Debug::DrawLine_Injected(UnityEngine.Vector3&,UnityEngine.Vector3&,UnityEngine.Color&,System.Single,System.Boolean)
-IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Debug_DrawLine_Injected_m4458CF7A0F443E6055447C0695795EBC7C463AF1 (Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2* ___start0, Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2* ___end1, Color_tD001788D726C3A7F1379BEED0260B9591F440C1F* ___color2, float ___duration3, bool ___depthTest4, const RuntimeMethod* method) 
-{
-	typedef void (*Debug_DrawLine_Injected_m4458CF7A0F443E6055447C0695795EBC7C463AF1_ftn) (Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2*, Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2*, Color_tD001788D726C3A7F1379BEED0260B9591F440C1F*, float, bool);
-	static Debug_DrawLine_Injected_m4458CF7A0F443E6055447C0695795EBC7C463AF1_ftn _il2cpp_icall_func;
-	if (!_il2cpp_icall_func)
-	_il2cpp_icall_func = (Debug_DrawLine_Injected_m4458CF7A0F443E6055447C0695795EBC7C463AF1_ftn)il2cpp_codegen_resolve_icall ("UnityEngine.Debug::DrawLine_Injected(UnityEngine.Vector3&,UnityEngine.Vector3&,UnityEngine.Color&,System.Single,System.Boolean)");
-	_il2cpp_icall_func(___start0, ___end1, ___color2, ___duration3, ___depthTest4);
 }
 #ifdef __clang__
 #pragma clang diagnostic pop

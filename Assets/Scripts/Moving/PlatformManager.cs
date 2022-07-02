@@ -39,12 +39,11 @@ public class PlatformManager : MonoBehaviour, IPlatformManager, IMovingManager
             _platformList.Add(_tmpPlatform);
 
             _platformBag.RemoveAt(index);
-            
+
             offset = _tmpPlatform._length+_tmpPlatform.transform.position.x;
             
         } while(_platformBag.Count > 0);
     }
-
     public void ReplayGame()
     {
         foreach(Platform p in _platformList)
@@ -73,16 +72,11 @@ public class PlatformManager : MonoBehaviour, IPlatformManager, IMovingManager
         } while (_platformBag.Count > 0);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
- 
-    }
-
     public void ResetPlatform(Platform pPlatform) // Ajoute la plateforme "détruite" au sac
     {
         _platformBag.Add(pPlatform);
         _platformList.Remove(pPlatform);
+                
         if(_platformBag.Count > 2)
         {
             MovePlatform();
@@ -110,7 +104,7 @@ public class PlatformManager : MonoBehaviour, IPlatformManager, IMovingManager
         _platformBag.Remove(_platformBag[index]);
     }
 
-    public void ChangeSpeed(float pSpeed)
+    /*public void ChangeSpeed(float pSpeed)
     {
         foreach (Platform p in _platformList)
         {
@@ -120,5 +114,5 @@ public class PlatformManager : MonoBehaviour, IPlatformManager, IMovingManager
         {
             p._speed = pSpeed;
         }
-    }
+    }*/
 }

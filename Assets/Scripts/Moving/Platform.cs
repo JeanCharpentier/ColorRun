@@ -7,13 +7,11 @@ public class Platform : MonoBehaviour, IPlatform
     [HideInInspector]
     public float _speed;
     public int _length;
-    Vector3 _pos;
     public bool isTP;
     public int _state;
 
-    MeshRenderer rend;
-    float _opacity;
     IPlatformManager srvPManager;
+    IPlayer srvPlayer;
     void Awake()
     {
         ServicesLocator.AddService<IPlatform>(this);
@@ -22,50 +20,26 @@ public class Platform : MonoBehaviour, IPlatform
     void Start()
     {
         srvPManager = ServicesLocator.GetService<IPlatformManager>();
+        srvPlayer = ServicesLocator.GetService<IPlayer>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        _pos = Vector3.left * _speed * Time.deltaTime;
-        transform.position += _pos;
-
-        /*for (int i = 0; i <= _length - 1; i++) // Variation d'Alpha pour simuler apparition de l'Emissive dans le Fog
-        {
-            rend = GetComponentsInChildren<MeshFilter>()[i*2].GetComponent<MeshRenderer>();
-            rend.materials[1].shader = Shader.Find("Shader Graphs/SG_Glow");
-            if (rend.materials[1].GetFloat("_Alpha") < 1.0f)
-            {
-                float dist = Vector3.Distance(new Vector3(0,0,0), transform.position);
-                _opacity = 1 - (dist/100);
-                Debug.Log("Opacity Dist :" + _opacity);
-                rend.materials[1].SetFloat("_Alpha", _opacity);
-            }
-        }*/
-
         // Remise dans le sac avant tirage
-        if (transform.position.x < (-4) && !isTP)
+        if(!isTP)
         {
-            srvPManager.ResetPlatform(this);
-            isTP = true;
+            if (transform.position.x < srvPlayer.GetPos().x - 10)
+            {
+                srvPManager.ResetPlatform(this);
+                isTP = true;
+            }
         }
     }
-
     public int GetState()
     {
         return _state;
     }
-
-    public void ChangeSpeed(float pSpeed)
-    {
-        _speed = pSpeed;
-    }
-
-    public void Kill()
-    {
-        Destroy(gameObject);
-    }
-
     public void ResetThisPlatform()
     {
         _state = 0;
