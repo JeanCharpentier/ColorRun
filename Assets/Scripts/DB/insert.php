@@ -3,13 +3,8 @@ include 'credentials.php';
 
 $sqlco = new mysqli($host,$user,$pwd,$db);
 
-$player = $_POST['player'];
-$score = $_POST['score'];
-
-//$player = $_GET['player'];
-//$score = $_GET['score'];
-
-//html strip tags pour la sécu ?
+$player = strip_tags($_POST['player']); // Revoir pour la sécu et les injections SQL
+$score = strip_tags($_POST['score']);
 
 if($player != "" && $score != "") {
     if($sqlco->connect_error) {

@@ -27,7 +27,7 @@ public class GoMenu : MonoBehaviour,IGOMenu
     {
         // Lancer une pub ?
         srvGManager.FillContinues();
-        srvGManager.SaveScore();
+        //srvGManager.SaveScore();
     }
 
     public void Retry()
@@ -35,7 +35,7 @@ public class GoMenu : MonoBehaviour,IGOMenu
         this.GetComponent<Canvas>().enabled = false;
         srvGManager.ResetGame();
         Time.timeScale = 1;
-        srvGManager.SaveScore();
+        //srvGManager.SaveScore();
     }
 
     public void ChangeContinues(int pContinues)

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlatformManager : MonoBehaviour, IPlatformManager,IMovingManager
+public class PlatformManager : MonoBehaviour, IPlatformManager, IMovingManager
 {
     [SerializeField]
     List<Platform> _platformList;

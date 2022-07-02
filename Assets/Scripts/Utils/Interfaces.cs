@@ -33,6 +33,8 @@ public interface IGameManager
 
     int GetScore();
     void SaveScore();
+
+    void ChangeBloom(float pBloom);
 }
 
 public interface IPlayer

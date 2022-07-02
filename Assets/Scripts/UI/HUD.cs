@@ -8,6 +8,9 @@ public class HUD : MonoBehaviour, IHUD
 {
     [SerializeField]
     Sprite[] _lifesList;
+
+    float _maxFPS;
+
     IGameManager srvGManager;
     private void Awake()
     {
@@ -16,12 +19,18 @@ public class HUD : MonoBehaviour, IHUD
     private void Start()
     {
         srvGManager = ServicesLocator.GetService<IGameManager>();
+        _maxFPS = 0f;
     }
 
     private void Update()
     {
         float fps = 1.0f / Time.deltaTime;
         transform.GetChild(5).GetComponent<TextMeshProUGUI>().SetText(Mathf.Ceil(fps).ToString());
+        if(fps > _maxFPS)
+        {
+            _maxFPS = fps;
+            //Debug.LogWarning("_maxFPS FPS :" + _maxFPS);
+        }
     }
     public void ChangeSprite(int pLifes)
     {

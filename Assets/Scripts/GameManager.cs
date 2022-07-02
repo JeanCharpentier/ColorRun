@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour,IGameManager
@@ -19,6 +21,10 @@ public class GameManager : MonoBehaviour,IGameManager
     int _score;
     int _continues;
     int _gameMode; //1 = normal, 2 = daily, 3 = random
+
+    int _quality;
+    PostProcessVolume _ppVolume;
+    Bloom _bloomVolume;
 
 
     // Timer Augmentation vitesse
@@ -59,7 +65,18 @@ public class GameManager : MonoBehaviour,IGameManager
 
         srvHUD.UpdateSpeed(_speed);
 
-        Time.timeScale = 1;
+        Time.timeScale = 1; // On remet le temps "en route"
+
+        _quality = PlayerPrefs.GetInt("quality");
+        _ppVolume = Camera.main.GetComponent<PostProcessVolume>();
+
+        if(_quality == 0)
+        {
+            _ppVolume.enabled = false;
+        }else
+        {
+            _ppVolume.enabled = true;
+        }
     }
 
     // Update is called once per frame
@@ -81,6 +98,15 @@ public class GameManager : MonoBehaviour,IGameManager
             _scoreTimer = 0;
         }
         _scoreTimer += Time.deltaTime;
+    }
+
+    public void ChangeBloom(float pBloom)
+    {
+        _ppVolume.profile.TryGetSettings(out _bloomVolume);
+        if(_bloomVolume != null)
+        {
+            _bloomVolume.intensity.value = pBloom;
+        }
     }
 
     public float GetSpeed()
@@ -162,10 +188,10 @@ public class GameManager : MonoBehaviour,IGameManager
     {
         if(PlayerPrefs.GetInt("mode") == 1) // On upgrade le Highscore seulement si le mode est "normal"
         {
-            if(_score > PlayerPrefs.GetInt("score") || PlayerPrefs.HasKey("score"))
+            if(_score > PlayerPrefs.GetInt("score") || !PlayerPrefs.HasKey("score"))
             {
                 PlayerPrefs.SetInt("score", _score);
-                //srvSManager.SetHighscore(_score, PlayerPrefs.GetString("playerName"));//Upload to Leaderboard 
+                srvSManager.SetHighscore(_score, PlayerPrefs.GetString("playerName")); // Upload to Leaderboard 
             }
         }
         

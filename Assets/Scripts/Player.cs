@@ -16,6 +16,8 @@ public class Player : MonoBehaviour, IPlayer
 
     Vector3 _basePos;
 
+    bool canVibrate;
+
 
     // Invulnerabilité
     bool isGod;
@@ -38,9 +40,9 @@ public class Player : MonoBehaviour, IPlayer
 
         _playerBody = gameObject.GetComponent<Rigidbody>();
         isOnGround = false;
-        isJumping = false;
+        isJumping = true;
         isDashing = false;
-        _state = 1;
+        _state = 0;
         _basePos = transform.position;
 
 
@@ -48,7 +50,15 @@ public class Player : MonoBehaviour, IPlayer
         tiTimer = 0.0f;
         tiDuration = 5.0f;
 
-        SwitchColor();
+        if(PlayerPrefs.GetInt("vibration") == 1)
+        {
+            canVibrate = true;
+        }else
+        {
+            canVibrate = false;
+        }
+
+        GetComponentsInChildren<MeshFilter>()[0].GetComponent<MeshRenderer>().sharedMaterials[1].color = CF._colList[_state];
 
         _goMenu = GameObject.Find("GO_Canvas");
     }
@@ -56,7 +66,7 @@ public class Player : MonoBehaviour, IPlayer
     // Update is called once per frame
     void Update()
     {
-        gameObject.GetComponentsInChildren<MeshFilter>()[0].transform.Rotate(0,0,(-srvGManager.GetSpeed()/Mathf.PI)); // Rotation de la balle
+        gameObject.GetComponentsInChildren<MeshFilter>()[0].transform.Rotate(0,0,(-srvGManager.GetSpeed()/Mathf.PI)*Time.deltaTime*160); // Rotation de la balle
 
         if(isGod) // Fin de l'invulnerabilité
         {
@@ -76,7 +86,10 @@ public class Player : MonoBehaviour, IPlayer
             if(isDashing) // Si c'est un Dash, on shake plus fort !
             {
                 StartCoroutine(_cameraShake.Shake(0.1f, 0.3f));
-                Handheld.Vibrate(); // Vibrations du tel ?
+                if (canVibrate)
+                {
+                    Handheld.Vibrate();
+                }
             }else
             {
                 StartCoroutine(_cameraShake.Shake(0.1f, 0.07f));
@@ -179,6 +192,7 @@ public class Player : MonoBehaviour, IPlayer
     {
         transform.position = _basePos;
         _state = 0;
+        GetComponentsInChildren<MeshFilter>()[0].GetComponent<MeshRenderer>().sharedMaterials[1].color = CF._colList[_state];
         Invulnerability(true);
     }
 }

@@ -25,14 +25,12 @@ public static class CF
         _CB = pBool;
         if (pBool)
         {
-            _colList[0] = _colSecondary;
-            _colList[1] =  _colTertiary;
-            Debug.LogWarning("CB :" + pBool);
+            _colList[0] = _colTertiary;
+            _colList[1] = _colSecondary;
         }else
         {
             _colList[0] = _colPrimary;
             _colList[1] = _colSecondary;
-            Debug.LogWarning("CB :" + pBool);
         }
     }
     public static int DateToInt(char pType)

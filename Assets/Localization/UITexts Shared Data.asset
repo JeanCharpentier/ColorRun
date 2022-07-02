@@ -79,6 +79,34 @@ MonoBehaviour:
     m_Key: Key_Welcome
     m_Metadata:
       m_Items: []
+  - m_Id: 2986526101164032
+    m_Key: Key_Leaderboard
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3559912078528512
+    m_Key: Key_Speed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3564382699081728
+    m_Key: Key_Jump
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3564449484984320
+    m_Key: Key_Dash
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3564595765530624
+    m_Key: Key_Switch
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3565584769830912
+    m_Key: Key_Quality
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3577765229973504
+    m_Key: Key_Vibration
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

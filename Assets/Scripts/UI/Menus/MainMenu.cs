@@ -14,12 +14,16 @@ public class MainMenu : MonoBehaviour
     Toggle tgl_ColorBlind;
     [SerializeField]
     Toggle tgl_Language;
+    [SerializeField]
+    Toggle tgl_Quality;
+    [SerializeField]
+    Toggle tgl_Vibration;
 
     private void Start()
     {
         tgl_ColorBlind.isOn = CF._CB;
 
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = 600;
 
         if (PlayerPrefs.HasKey("score"))
         {
@@ -37,12 +41,34 @@ public class MainMenu : MonoBehaviour
         {
             EnableCanvas(3);
         }
+
+        SetToggle(tgl_Quality, "quality",1);
+        SetToggle(tgl_ColorBlind, "colorblind",0);
+        SetToggle(tgl_Vibration, "vibration",1);
     }
     private void OnEnable()
     {
         transform.GetChild(0).GetChild(4).GetComponent<TextMeshProUGUI>().SetText(PlayerPrefs.GetInt("score").ToString());
     }
 
+    void SetToggle(Toggle pTgl,string pPref, int pVal) // Met a jour les boutons switch des options
+    {
+        if (!PlayerPrefs.HasKey(pPref))
+        {
+            PlayerPrefs.SetInt(pPref, pVal);
+        }
+        else
+        {
+            if (PlayerPrefs.GetInt(pPref) == 0)
+            {
+                pTgl.isOn = false;
+            }
+            else
+            {
+                pTgl.isOn = true;
+            }
+        }
+    }
     void EnableCanvas(int pCanvas)
     {
         int _canvasCount;
@@ -83,15 +109,44 @@ public class MainMenu : MonoBehaviour
         EnableCanvas(5);
     }
 
+    public void Leaderboard()
+    {
+        SceneManager.LoadScene("MainLeaderboard");
+    }
+
     public void SetColorBlind()
     {
         if(tgl_ColorBlind.isOn)
         {
             CF.ColorBlind(true);
-            
+            PlayerPrefs.SetInt("colorblind", 1);
         }else
         {
             CF.ColorBlind(false);
+            PlayerPrefs.SetInt("colorblind", 0);
+        }
+    }
+
+    public void SetQuality()
+    {
+        if(tgl_Quality.isOn)
+        {
+            PlayerPrefs.SetInt("quality", 1);
+        }else
+        {
+            PlayerPrefs.SetInt("quality", 0);
+        }
+    }
+
+    public void SetVibration()
+    {
+        if (tgl_Vibration.isOn)
+        {
+            PlayerPrefs.SetInt("vibration", 1);
+        }
+        else
+        {
+            PlayerPrefs.SetInt("vibration", 0);
         }
     }
     public void PlayNormal()

@@ -55,7 +55,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 648118477475840
-    m_Localized: Ajouter essai
+    m_Localized: + un essai
     m_Metadata:
       m_Items: []
   - m_Id: 648541137489920
@@ -67,7 +67,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 649872384413696
-    m_Localized: continues restants
+    m_Localized: Essais restants
     m_Metadata:
       m_Items: []
   - m_Id: 2604506502090752
@@ -80,6 +80,34 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 2837645312872448
     m_Localized: Bienvenue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2986526101164032
+    m_Localized: Classement
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3559912078528512
+    m_Localized: ': Vitesse'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3564382699081728
+    m_Localized: Sauter
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3564449484984320
+    m_Localized: Boost Vertical
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3564595765530624
+    m_Localized: Changer de couleur
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3565584769830912
+    m_Localized: "Qualit\xE9 Max."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3577765229973504
+    m_Localized: Vibrations
     m_Metadata:
       m_Items: []
   references:
