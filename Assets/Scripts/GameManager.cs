@@ -38,8 +38,8 @@ public class GameManager : MonoBehaviour,IGameManager
     float _scoreTimerRate;
 
     IHUD srvHUD;
-    IMovingManager srvMManager;
     IPlatformManager srvPManager;
+    IBackgroundManager srvBGManager;
     IPlayer srvPlayer;
     IGOMenu srvGOMenu;
     IScoreManager srvSManager;
@@ -51,14 +51,14 @@ public class GameManager : MonoBehaviour,IGameManager
     void Start()
     {
         srvHUD = ServicesLocator.GetService<IHUD>();
-        srvMManager = ServicesLocator.GetService<IMovingManager>();
         srvPManager = ServicesLocator.GetService<IPlatformManager>();
+        srvBGManager = ServicesLocator.GetService<IBackgroundManager>();
         srvPlayer = ServicesLocator.GetService<IPlayer>();
         srvGOMenu = ServicesLocator.GetService<IGOMenu>();
         srvSManager = ServicesLocator.GetService<IScoreManager>();
 
         _score = 0;
-        _continues = 3;
+        _continues = 8;
         _speed = _baseSpeed;
         _lifes = _baseLifes;
         _gameMode = PlayerPrefs.GetInt("mode");
@@ -158,14 +158,18 @@ public class GameManager : MonoBehaviour,IGameManager
 
     public void ResetGame()
     {
-        if(_continues > 0)
+        Time.timeScale = 1;
+        if (_continues > 0)
         {
+            
             srvPManager.ReplayGame();
+            srvBGManager.ReplayGame();
             SetLifes(0, true);
             SetSpeed(0.0f, true);
-            srvPlayer.ResetPlayer();
+
+            srvPlayer.ResetPlayer();//SceneManager.LoadScene("MainScene");
+
             _continues--;
-            
             srvGOMenu.ChangeContinues(_continues); // Changer l'affichage sur le GOMenu
         }
         else

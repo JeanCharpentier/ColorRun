@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class GoMenu : MonoBehaviour,IGOMenu
 {
+
+    [SerializeField]
+    TextMeshProUGUI _continues;
     IGameManager srvGManager;
 
 
@@ -16,6 +19,8 @@ public class GoMenu : MonoBehaviour,IGOMenu
     private void Start()
     {
         srvGManager = ServicesLocator.GetService<IGameManager>();
+        _continues = transform.GetChild(5).GetComponent<TextMeshProUGUI>();
+
     }
     public void BackMenu()
     {
@@ -32,14 +37,13 @@ public class GoMenu : MonoBehaviour,IGOMenu
 
     public void Retry()
     {
-        this.GetComponent<Canvas>().enabled = false;
         srvGManager.ResetGame();
-        Time.timeScale = 1;
-        //srvGManager.SaveScore();
+        this.GetComponent<Canvas>().enabled = false;
     }
 
     public void ChangeContinues(int pContinues)
     {
-        transform.GetChild(5).GetComponent<TextMeshProUGUI>().SetText(pContinues.ToString());
+        //transform.GetChild(5).GetComponent<TextMeshProUGUI>().SetText(pContinues.ToString());
+        _continues.SetText(pContinues.ToString());
     }
 }

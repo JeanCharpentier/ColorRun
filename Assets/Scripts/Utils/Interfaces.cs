@@ -7,15 +7,18 @@ public interface IPlatformManager
     void ResetPlatform(Platform pPlatform);
     void ReplayGame();
 }
-public interface IMovingManager
+
+public interface IBackgroundManager
 {
-    //void ChangeSpeed(float pSpeed);
+    void ResetPlatform(Background pBG);
+    void ReplayGame();
 }
 
 
 public interface IPlatform
 {
     int GetState();
+    void ChangeColor();
 }
 
 public interface IGameManager

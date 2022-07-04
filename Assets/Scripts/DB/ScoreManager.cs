@@ -25,7 +25,6 @@ public class ScoreManager : MonoBehaviour, IScoreManager
         posts.AddField("score", _score.ToString());
 
         UnityWebRequest www = UnityWebRequest.Post("https://outofreality.org/Games/highway_roller/insert.php", posts);
-        //Debug.Log("saving score...");
         yield return www.SendWebRequest();
 
         if (www.result != UnityWebRequest.Result.Success)

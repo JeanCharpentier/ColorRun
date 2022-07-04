@@ -10,17 +10,24 @@ public class Player : MonoBehaviour, IPlayer
 
     public int _jumpForce;
     float _speed;
-    Vector3 _pos;
+    float _pos;
     bool isOnGround;
     bool isJumping;
     bool isDashing;
     Rigidbody _playerBody;
+    Transform _playerTransform;
+
     int _state; // 0 = Rose, 1 = Bleu
+    MeshRenderer _meshPlayer;
+    MeshRenderer _meshInvul;
 
     Vector3 _basePos;
     Vector3 _move;
 
     bool canVibrate;
+    AudioSource _sndDash;
+
+    ParticleSystem _psDash;
 
 
     // Invulnerabilité
@@ -31,6 +38,7 @@ public class Player : MonoBehaviour, IPlayer
     GameObject _goMenu;
 
     IGameManager srvGManager;
+    IPlatformManager srvPManager;
     void Awake()
     {
         ServicesLocator.AddService<IPlayer>(this);
@@ -39,6 +47,7 @@ public class Player : MonoBehaviour, IPlayer
     void Start()
     {
         srvGManager = ServicesLocator.GetService<IGameManager>();
+        srvPManager = ServicesLocator.GetService<IPlatformManager>();
 
         _playerBody = gameObject.GetComponent<Rigidbody>();
         isOnGround = false;
@@ -46,6 +55,13 @@ public class Player : MonoBehaviour, IPlayer
         isDashing = false;
         _state = 0;
         _basePos = transform.position;
+
+        _playerTransform = gameObject.GetComponentsInChildren<MeshFilter>()[0].transform;
+        _meshPlayer = GetComponentsInChildren<MeshFilter>()[0].GetComponent<MeshRenderer>();
+        _meshInvul = transform.GetChild(1).GetComponentInChildren<MeshRenderer>();
+
+        _sndDash = GetComponent<AudioSource>();
+        _psDash = transform.GetChild(0).GetComponent<ParticleSystem>();
 
         isGod = false;
         tiTimer = 0.0f;
@@ -59,18 +75,15 @@ public class Player : MonoBehaviour, IPlayer
             canVibrate = false;
         }
 
-        GetComponentsInChildren<MeshFilter>()[0].GetComponent<MeshRenderer>().sharedMaterials[1].color = CF._colList[_state];
-
         _goMenu = GameObject.Find("GO_Canvas");
     }
     void Update()
     {
 
         _move = Vector3.right * _speed * Time.deltaTime;
-        //_move = new Vector3(1 * _speed * Time.deltaTime, _playerBody.position.y, 0);
-        _playerBody.MovePosition(transform.position + _move);
+        _playerBody.MovePosition(_playerBody.position + _move);
 
-        gameObject.GetComponentsInChildren<MeshFilter>()[0].transform.Rotate(0,0,(-_speed/Mathf.PI)*Time.deltaTime*160); // Rotation de la balle
+        _playerTransform.Rotate(0,0,(-_speed/Mathf.PI)*Time.deltaTime*160); // Rotation de la balle
 
         if(isGod) // Fin de l'invulnerabilité
         {
@@ -93,6 +106,8 @@ public class Player : MonoBehaviour, IPlayer
                 if (canVibrate)
                 {
                     Handheld.Vibrate();
+                    _sndDash.Play();
+                    _psDash.Emit(50);
                 }
             }else
             {
@@ -115,10 +130,12 @@ public class Player : MonoBehaviour, IPlayer
                     if (srvGManager.GetLifes() > 0)
                     {
                         srvGManager.SetLifes(srvGManager.GetLifes() - 1, false);
+                        
                         Invulnerability(true);
                     }else
                     {
                         _goMenu.GetComponent<Canvas>().enabled = true;
+                        
                         Time.timeScale = 0;
                     }
                 }
@@ -140,6 +157,12 @@ public class Player : MonoBehaviour, IPlayer
         {
             _goMenu.GetComponent<Canvas>().enabled = true;
             Time.timeScale = 0;
+        }
+
+        if (other.gameObject.CompareTag("bonus"))
+        {
+            Debug.Log("bonus!");
+            Destroy(other.gameObject);
         }
     }
 
@@ -173,7 +196,7 @@ public class Player : MonoBehaviour, IPlayer
             {
                 _state = 0;
             }
-            GetComponentsInChildren<MeshFilter>()[0].GetComponent<MeshRenderer>().sharedMaterials[1].color = CF._colList[_state];
+            _meshPlayer.sharedMaterials[1].color = CF._colList[_state];
         }
     }
 
@@ -181,10 +204,10 @@ public class Player : MonoBehaviour, IPlayer
     {
         if(pBool)
         {
-            transform.GetChild(1).GetComponentInChildren<MeshRenderer>().enabled = true;
+            _meshInvul.enabled = true;
         }else
         {
-            transform.GetChild(1).GetComponentInChildren<MeshRenderer>().enabled = false;
+            _meshInvul.enabled = false;
         }
         isGod = pBool;
     }
@@ -193,7 +216,7 @@ public class Player : MonoBehaviour, IPlayer
     {
         transform.position = _basePos;
         _state = 0;
-        GetComponentsInChildren<MeshFilter>()[0].GetComponent<MeshRenderer>().sharedMaterials[1].color = CF._colList[_state];
+        _meshPlayer.sharedMaterials[1].color = CF._colList[_state];
         Invulnerability(true);
     }
 

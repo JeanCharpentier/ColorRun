@@ -1025,6 +1025,7 @@ UnityEngine.ResourcesAPIInternal::LoadAsyncInternal
 UnityEngine.ResourcesAPIInternal::FindShaderByName
 UnityEngine.Rigidbody::AddForce_Injected
 UnityEngine.Rigidbody::MovePosition_Injected
+UnityEngine.Rigidbody::get_position_Injected
 UnityEngine.ScalableBufferManager::get_heightScaleFactor
 UnityEngine.ScalableBufferManager::get_widthScaleFactor
 UnityEngine.ScalableBufferManager::ResizeBuffers

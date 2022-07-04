@@ -2,14 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlatformManager : MonoBehaviour, IPlatformManager, IMovingManager
+public class PlatformManager : MonoBehaviour, IPlatformManager
 {
     [SerializeField]
     List<Platform> _platformList;
-    public List<Platform> _platformBag;
+    [SerializeField]
+    List<Platform> _platformBaseBag;
+    [SerializeField]
+    List<Platform> _platformBag;
     Platform _tmpPlatform;
 
-    
+    // DEBUG Replay
+    int _nbReplay;
+
     float _curSpeed;
 
     // Services
@@ -18,51 +23,26 @@ public class PlatformManager : MonoBehaviour, IPlatformManager, IMovingManager
     private void Awake()
     {
         ServicesLocator.AddService<IPlatformManager>(this);
-        ServicesLocator.AddService<IMovingManager>(this);
     }
-    // Start is called before the first frame update
     void Start()
     {
         srvGManager = ServicesLocator.GetService<IGameManager>();
         
         _curSpeed = srvGManager.GetSpeed();
 
-        float offset = 0;
-        _platformList = new List<Platform>();
-        do{
-            int index = Random.Range(0,_platformBag.Count-1);
-            _tmpPlatform = Instantiate<Platform>(_platformBag[index],new Vector3(offset,0,0),Quaternion.identity);
-            _tmpPlatform._speed = _curSpeed;
-            _tmpPlatform._state = 0;
-            _tmpPlatform.GetComponentsInChildren<MeshFilter>()[0].GetComponent<MeshRenderer>().sharedMaterials[1].color = CF._colList[0];
-            _tmpPlatform.GetComponentsInChildren<MeshFilter>()[0].GetComponent<MeshRenderer>().sharedMaterials[0].color = Color.grey;
-            _platformList.Add(_tmpPlatform);
-
-            _platformBag.RemoveAt(index);
-
-            offset = _tmpPlatform._length+_tmpPlatform.transform.position.x;
-            
-        } while(_platformBag.Count > 0);
+        LoadPlatforms();
     }
-    public void ReplayGame()
+    void LoadPlatforms()
     {
-        foreach(Platform p in _platformList)
-        {
-            _platformBag.Add(p);
-        }
-
-        _platformList.Clear();
-
         float offset = 0;
-
+        _platformBag = new List<Platform>(_platformBaseBag);
+        _platformList = new List<Platform>();
         do
         {
             int index = Random.Range(0, _platformBag.Count - 1);
-
-            _tmpPlatform = _platformBag[index];
-            _tmpPlatform.transform.position = new Vector3(offset, 0, 0);
-            _tmpPlatform.ResetThisPlatform();
-
+            _tmpPlatform = Instantiate<Platform>(_platformBag[index], new Vector3(offset, 0, 0), Quaternion.identity);
+            _tmpPlatform._state = 0;
+            _tmpPlatform._colBorder = CF._colList[0];
             _platformList.Add(_tmpPlatform);
 
             _platformBag.RemoveAt(index);
@@ -71,7 +51,18 @@ public class PlatformManager : MonoBehaviour, IPlatformManager, IMovingManager
 
         } while (_platformBag.Count > 0);
     }
+    public void ReplayGame()
+    {
+        GameObject[] _curPlatforms = GameObject.FindGameObjectsWithTag("platform");
+        foreach (GameObject p in _curPlatforms)
+        {
+            Destroy(p);
+        }
+        _platformBag.Clear();
+        _platformList.Clear();
 
+        LoadPlatforms();
+    }
     public void ResetPlatform(Platform pPlatform) // Ajoute la plateforme "détruite" au sac
     {
         _platformBag.Add(pPlatform);
@@ -103,16 +94,4 @@ public class PlatformManager : MonoBehaviour, IPlatformManager, IMovingManager
         _platformList.Add(_platformBag[index]);
         _platformBag.Remove(_platformBag[index]);
     }
-
-    /*public void ChangeSpeed(float pSpeed)
-    {
-        foreach (Platform p in _platformList)
-        {
-            p._speed = pSpeed;
-        }
-        foreach (Platform p in _platformBag)
-        {
-            p._speed = pSpeed;
-        }
-    }*/
 }

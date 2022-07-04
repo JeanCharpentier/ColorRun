@@ -10,9 +10,14 @@ public class RotatingObject : MonoBehaviour
     float rotY;
     [SerializeField]
     float rotZ;
-    // Update is called once per frame
+
+    Transform _transform;
+    private void Start()
+    {
+        _transform = GetComponentsInChildren<MeshFilter>()[0].transform;
+    }
     void Update()
     {
-        gameObject.GetComponentsInChildren<MeshFilter>()[0].transform.Rotate(rotX,rotY,rotZ);
+        _transform.Rotate(rotX,rotY,rotZ);
     }
 }

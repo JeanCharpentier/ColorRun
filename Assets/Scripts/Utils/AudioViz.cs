@@ -13,12 +13,12 @@ public class AudioViz : MonoBehaviour
     }
     void Update()
     {
-        float[] spectrum = new float[256];
-
-        AudioListener.GetSpectrumData(spectrum, 0, FFTWindow.Rectangular);
-
         if(PlayerPrefs.GetInt("quality") == 1)
         {
+            float[] spectrum = new float[256];
+
+            AudioListener.GetSpectrumData(spectrum, 0, FFTWindow.Rectangular);
+
             _clampSpectrum = spectrum[2] * 1.2f;
 
             if (_clampSpectrum > 0.15)
