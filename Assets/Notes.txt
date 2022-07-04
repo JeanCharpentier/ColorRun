@@ -1,1 +1,7 @@
 ﻿Explications héritage des listes ?
+
+Bug du reset 1 fois sur 2 ?
+
+
+
+// Mouvements Sine : transform.position = _startPosition + new Vector3(Mathf.Sin(Time.time), 0.0f, 0.0f);

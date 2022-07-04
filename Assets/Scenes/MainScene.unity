@@ -718,7 +718,19 @@ MonoBehaviour:
   m_ControlsChangedEvent:
     m_PersistentCalls:
       m_Calls: []
-  m_ActionEvents: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8b3ab323-2b78-4c66-b772-139833af7cb9
+    m_ActionName: Touch/PrimaryContact[/Simulated Touchscreen/primaryTouch/press]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 335d486b-83c1-4a69-beb3-265462bd2ec2
+    m_ActionName: Touch/PrimaryPosition[/Simulated Touchscreen/primaryTouch/position]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2bdbda13-34d9-4044-aa96-4d32fe4f95b4
+    m_ActionName: Gamepad/New action
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Touch

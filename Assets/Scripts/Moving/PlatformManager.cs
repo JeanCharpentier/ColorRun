@@ -51,7 +51,7 @@ public class PlatformManager : MonoBehaviour, IPlatformManager
 
         } while (_platformBag.Count > 0);
     }
-    public void ReplayGame()
+    public void ReplayGame() // On nettoye puis on recharge des plateformes
     {
         GameObject[] _curPlatforms = GameObject.FindGameObjectsWithTag("platform");
         foreach (GameObject p in _curPlatforms)
@@ -63,6 +63,9 @@ public class PlatformManager : MonoBehaviour, IPlatformManager
 
         LoadPlatforms();
     }
+
+
+    // Gestion du sac lorsque la plateforme passe derrière le joueur
     public void ResetPlatform(Platform pPlatform) // Ajoute la plateforme "détruite" au sac
     {
         _platformBag.Add(pPlatform);
