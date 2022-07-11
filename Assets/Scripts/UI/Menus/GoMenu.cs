@@ -9,7 +9,9 @@ public class GoMenu : MonoBehaviour,IGOMenu
 
     [SerializeField]
     TextMeshProUGUI _continues;
+
     IGameManager srvGManager;
+    IScoreManager srvSManager;
 
 
     private void Awake()
@@ -19,12 +21,13 @@ public class GoMenu : MonoBehaviour,IGOMenu
     private void Start()
     {
         srvGManager = ServicesLocator.GetService<IGameManager>();
+        srvSManager = ServicesLocator.GetService<IScoreManager>();
         _continues = transform.GetChild(5).GetComponent<TextMeshProUGUI>();
 
     }
     public void BackMenu()
     {
-        srvGManager.SaveScore();
+        srvSManager.SaveScore();
         SceneManager.LoadScene("MainMenu");
     }
 
@@ -32,7 +35,6 @@ public class GoMenu : MonoBehaviour,IGOMenu
     {
         // Lancer une pub ?
         srvGManager.FillContinues();
-        //srvGManager.SaveScore();
     }
 
     public void Retry()
@@ -43,7 +45,6 @@ public class GoMenu : MonoBehaviour,IGOMenu
 
     public void ChangeContinues(int pContinues)
     {
-        //transform.GetChild(5).GetComponent<TextMeshProUGUI>().SetText(pContinues.ToString());
         _continues.SetText(pContinues.ToString());
     }
 }

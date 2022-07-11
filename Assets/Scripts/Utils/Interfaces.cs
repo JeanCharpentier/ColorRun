@@ -35,7 +35,7 @@ public interface IGameManager
     void FillContinues();
 
     int GetScore();
-    void SaveScore();
+    //void SaveScore();
 
     void ChangeBloom(float pBloom);
 }
@@ -67,4 +67,7 @@ public interface IGOMenu
 public interface IScoreManager
 {
     void SetHighscore(int pScore,string pPlayerName);
+    void SaveScore();
+
+    void BonusScore(int pBonus);
 }

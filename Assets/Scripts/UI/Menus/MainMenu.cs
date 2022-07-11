@@ -18,6 +18,8 @@ public class MainMenu : MonoBehaviour
     Toggle tgl_Quality;
     [SerializeField]
     Toggle tgl_Vibration;
+    [SerializeField]
+    Slider sld_Sounds;
 
     private void Start()
     {
@@ -32,6 +34,15 @@ public class MainMenu : MonoBehaviour
             transform.GetChild(0).GetChild(4).GetComponent<TextMeshProUGUI>().SetText(PlayerPrefs.GetInt("score").ToString());
         }
 
+        if(PlayerPrefs.HasKey("volume"))
+        {
+            sld_Sounds.value = PlayerPrefs.GetFloat("volume");
+        }else
+        {
+            sld_Sounds.value = 0.5f;
+            PlayerPrefs.SetFloat("volume", 0.5f);
+        }
+
         if(PlayerPrefs.HasKey("playerName"))
         {
             // Si le joueur s'est déjà enregistré
@@ -43,8 +54,9 @@ public class MainMenu : MonoBehaviour
         }
 
         SetToggle(tgl_Quality, "quality",1);
-        SetToggle(tgl_ColorBlind, "colorblind",0);
+        SetToggle(tgl_ColorBlind, "colorblind", 0);
         SetToggle(tgl_Vibration, "vibration",1);
+        
     }
     private void OnEnable()
     {
@@ -57,16 +69,13 @@ public class MainMenu : MonoBehaviour
         {
             PlayerPrefs.SetInt(pPref, pVal);
         }
+        if (PlayerPrefs.GetInt(pPref) == 0)
+        {
+            pTgl.isOn = false;
+        }
         else
         {
-            if (PlayerPrefs.GetInt(pPref) == 0)
-            {
-                pTgl.isOn = false;
-            }
-            else
-            {
-                pTgl.isOn = true;
-            }
+            pTgl.isOn = true;
         }
     }
     void EnableCanvas(int pCanvas)
@@ -112,6 +121,11 @@ public class MainMenu : MonoBehaviour
     public void Leaderboard()
     {
         SceneManager.LoadScene("MainLeaderboard");
+    }
+
+    public void SetSoundsVolume()
+    {
+        PlayerPrefs.SetFloat("volume", sld_Sounds.value);
     }
 
     public void SetColorBlind()
@@ -175,7 +189,7 @@ public class MainMenu : MonoBehaviour
         PlayerPrefs.SetInt("seed", pSeed);
     }
 
-    public void SwitchLanguage()
+    public void SetLanguage()
     {
         if(LocalizationSettings.SelectedLocale == LocalizationSettings.AvailableLocales.Locales[0])
         {

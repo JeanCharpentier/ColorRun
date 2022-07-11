@@ -26,6 +26,11 @@ public class GameManager : MonoBehaviour,IGameManager
     PostProcessVolume _ppVolume;
     Bloom _bloomVolume;
 
+    // Audio
+    AudioSource _srcAudio;
+    AudioViz _vizAudio;
+    float _volAudio;
+
 
     // Timer Augmentation vitesse
     float _speedTimer;
@@ -58,7 +63,7 @@ public class GameManager : MonoBehaviour,IGameManager
         srvSManager = ServicesLocator.GetService<IScoreManager>();
 
         _score = 0;
-        _continues = 8;
+        _continues = 3;
         _speed = _baseSpeed;
         _lifes = _baseLifes;
         _gameMode = PlayerPrefs.GetInt("mode");
@@ -69,6 +74,21 @@ public class GameManager : MonoBehaviour,IGameManager
         Time.timeScale = 1; // On remet le temps "en route"
 
         _quality = PlayerPrefs.GetInt("quality");
+
+
+        _srcAudio = GetComponent<AudioSource>();
+        _vizAudio = GetComponent<AudioViz>();
+        _volAudio = PlayerPrefs.GetFloat("volume");
+
+        if(_volAudio <= 0f)
+        {
+            _srcAudio.enabled = false;
+            _vizAudio.enabled = false;
+        }else
+        {
+            AudioListener.volume = _volAudio;
+        }
+        
         _ppVolume = Camera.main.GetComponent<PostProcessVolume>();
 
         if(_quality == 0)
@@ -91,14 +111,6 @@ public class GameManager : MonoBehaviour,IGameManager
             _speedTimer = 0;
         }
         _speedTimer += Time.deltaTime;
-
-        if(_scoreTimer >= _scoreTimerRate/_speed)
-        {
-            _score += 1;
-            srvHUD.UpdateScore(_score);
-            _scoreTimer = 0;
-        }
-        _scoreTimer += Time.deltaTime;
     }
 
     public void ChangeBloom(float pBloom)
@@ -187,18 +199,5 @@ public class GameManager : MonoBehaviour,IGameManager
     public int GetScore()
     {
         return _score;
-    }
-
-    public void SaveScore()
-    {
-        if(PlayerPrefs.GetInt("mode") == 1) // On upgrade le Highscore seulement si le mode est "normal"
-        {
-            if(_score > PlayerPrefs.GetInt("score") || !PlayerPrefs.HasKey("score"))
-            {
-                PlayerPrefs.SetInt("score", _score);
-                srvSManager.SetHighscore(_score, PlayerPrefs.GetString("playerName")); // Upload to Leaderboard 
-            }
-        }
-        
     }
 }

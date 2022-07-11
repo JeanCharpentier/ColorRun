@@ -50,13 +50,31 @@
             ]
         },
         {
-            "name": "Gamepad",
+            "name": "Keyboard",
             "id": "7f48c0e9-4623-485f-80b0-f43bf9a37b03",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "Jump",
                     "type": "Button",
                     "id": "2bdbda13-34d9-4044-aa96-4d32fe4f95b4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Dash",
+                    "type": "Button",
+                    "id": "f16a7140-c455-4292-988b-5670ba910444",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SwitchColor",
+                    "type": "Button",
+                    "id": "2d6feead-5a7d-40fc-a94c-91edd24eb0db",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -67,11 +85,33 @@
                 {
                     "name": "",
                     "id": "d81baf6e-c9e5-4915-bc0e-5ec38ecb031f",
-                    "path": "",
+                    "path": "<Keyboard>/upArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e82ea331-466e-4478-9832-00188f2fda4b",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9d0e16bd-caf6-4c45-ac02-3ec8ec36a111",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchColor",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -692,7 +692,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cameraShake: {fileID: 2015651375}
-  _jumpForce: 300
+  _jumpStrenth: 300
+  _audDash: {fileID: 8300000, guid: 68a9b04110beaaf499adca7e6cf10b37, type: 3}
+  _audPickup: {fileID: 8300000, guid: 6ee14ad51ca454f4691e5f77056168a9, type: 3}
 --- !u!114 &507796168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -707,7 +709,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: 2d6c1faa8fecb5a43916752b27fe0ea8,
     type: 3}
-  m_NotificationBehavior: 0
+  m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -728,9 +730,53 @@ MonoBehaviour:
     m_ActionId: 335d486b-83c1-4a69-beb3-265462bd2ec2
     m_ActionName: Touch/PrimaryPosition[/Simulated Touchscreen/primaryTouch/position]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 507796167}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: Jump
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 2bdbda13-34d9-4044-aa96-4d32fe4f95b4
     m_ActionName: Gamepad/New action
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 507796167}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: VDash
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f16a7140-c455-4292-988b-5670ba910444
+    m_ActionName: Keyboard/Dash[/Keyboard/downArrow]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 507796167}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: SwitchColor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 2d6feead-5a7d-40fc-a94c-91edd24eb0db
+    m_ActionName: Keyboard/SwitchColor[/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Touch
@@ -1044,7 +1090,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -339.99994, y: -86.00006}
+  m_AnchoredPosition: {x: -339.99994, y: -209}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &533851768
@@ -6388,7 +6434,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -340, y: -53}
+  m_AnchoredPosition: {x: -340, y: -175.99994}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &778170979
@@ -6906,7 +6952,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 27, y: -268}
+  m_AnchoredPosition: {x: 27, y: -356}
   m_SizeDelta: {x: 268, y: 238}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1182524461
@@ -6982,7 +7028,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -135, y: -53}
+  m_AnchoredPosition: {x: -135, y: -176}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1239770768
@@ -7885,7 +7931,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -135, y: -86.00006}
+  m_AnchoredPosition: {x: -135, y: -209}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1799490543
@@ -8426,7 +8472,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0442f7b022b3cad46966e1137f18ce56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDistance: 10
+  minDistance: 50
   maxTime: 1
   directionThreshold: 0.9
 --- !u!114 &1961225188
@@ -8453,6 +8499,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5200a72f903ee7c47b2374a9414e338f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _scoreTimerRate: 0
 --- !u!114 &1961225191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8573,7 +8620,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 118fabaae50293c4db989983385713b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _platformList: []
   _platformBaseBag:
   - {fileID: 3117218471540416971, guid: 5b91886284052ac4e8d44537b0650a08, type: 3}
   - {fileID: 3117218471540416971, guid: 5b91886284052ac4e8d44537b0650a08, type: 3}
@@ -8581,7 +8627,6 @@ MonoBehaviour:
   - {fileID: 3117218471540416971, guid: 5b91886284052ac4e8d44537b0650a08, type: 3}
   - {fileID: 3117218471540416971, guid: 5b91886284052ac4e8d44537b0650a08, type: 3}
   - {fileID: 3117218471540416971, guid: 72991fb66a753ba48b3dadb22292f870, type: 3}
-  _platformBag: []
 --- !u!114 &1961225194
 MonoBehaviour:
   m_ObjectHideFlags: 0

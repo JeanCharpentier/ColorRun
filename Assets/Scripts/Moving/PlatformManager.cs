@@ -4,18 +4,16 @@ using UnityEngine;
 
 public class PlatformManager : MonoBehaviour, IPlatformManager
 {
-    [SerializeField]
     List<Platform> _platformList;
     [SerializeField]
     List<Platform> _platformBaseBag;
-    [SerializeField]
     List<Platform> _platformBag;
     Platform _tmpPlatform;
 
     // DEBUG Replay
     int _nbReplay;
 
-    float _curSpeed;
+    //float _curSpeed;
 
     // Services
     IGameManager srvGManager;
@@ -28,7 +26,7 @@ public class PlatformManager : MonoBehaviour, IPlatformManager
     {
         srvGManager = ServicesLocator.GetService<IGameManager>();
         
-        _curSpeed = srvGManager.GetSpeed();
+        //_curSpeed = srvGManager.GetSpeed();
 
         LoadPlatforms();
     }
@@ -60,7 +58,7 @@ public class PlatformManager : MonoBehaviour, IPlatformManager
         }
         _platformBag.Clear();
         _platformList.Clear();
-
+        System.GC.Collect();
         LoadPlatforms();
     }
 

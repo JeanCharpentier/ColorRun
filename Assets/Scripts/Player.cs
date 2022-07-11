@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour, IPlayer
@@ -8,7 +9,9 @@ public class Player : MonoBehaviour, IPlayer
 
     public CameraShake _cameraShake;
 
-    public int _jumpForce;
+    [SerializeField]
+    int _jumpStrenth;
+    int _jumpForce;
     float _speed;
     float _pos;
     bool isOnGround;
@@ -27,7 +30,14 @@ public class Player : MonoBehaviour, IPlayer
     bool canVibrate;
     AudioSource _sndDash;
 
+    [SerializeField]
+    AudioClip _audDash;
+    [SerializeField]
+    AudioClip _audPickup;
+
     ParticleSystem _psDash;
+
+    PlayerInput _controls;
 
 
     // Invulnerabilité
@@ -38,7 +48,8 @@ public class Player : MonoBehaviour, IPlayer
     GameObject _goMenu;
 
     IGameManager srvGManager;
-    IPlatformManager srvPManager;
+    IScoreManager srvSManager;
+    //IPlatformManager srvPManager;
     void Awake()
     {
         ServicesLocator.AddService<IPlayer>(this);
@@ -46,8 +57,21 @@ public class Player : MonoBehaviour, IPlayer
     // Start is called before the first frame update
     void Start()
     {
+        _controls = GetComponent<PlayerInput>();
+#if UNITY_ANDROID
+        _jumpForce = _jumpStrenth;
+        _controls.defaultActionMap = "Touch";
+#endif
+
+#if UNITY_STANDALONE_WIN
+        _jumpForce = _jumpStrenth / 2;
+        _controls.defaultActionMap = "Keyboard";
+#endif
+
+
         srvGManager = ServicesLocator.GetService<IGameManager>();
-        srvPManager = ServicesLocator.GetService<IPlatformManager>();
+        srvSManager = ServicesLocator.GetService<IScoreManager>();
+        //srvPManager = ServicesLocator.GetService<IPlatformManager>();
 
         _playerBody = gameObject.GetComponent<Rigidbody>();
         isOnGround = false;
@@ -61,6 +85,14 @@ public class Player : MonoBehaviour, IPlayer
         _meshInvul = transform.GetChild(1).GetComponentInChildren<MeshRenderer>();
 
         _sndDash = GetComponent<AudioSource>();
+        if(PlayerPrefs.GetFloat("volume") <= 0)
+        {
+            _sndDash.enabled = false;
+        }else
+        {
+            _sndDash.volume = PlayerPrefs.GetFloat("volume") / 3;
+        }
+
         _psDash = transform.GetChild(0).GetComponent<ParticleSystem>();
 
         isGod = false;
@@ -103,12 +135,17 @@ public class Player : MonoBehaviour, IPlayer
             if(isDashing) // Si c'est un Dash, on shake plus fort !
             {
                 StartCoroutine(_cameraShake.Shake(0.1f, 0.3f));
+
+                _sndDash.clip = _audDash;
+                _sndDash.Play();
+                _psDash.Emit(50);
+
+#if UNITY_ANDROID
                 if (canVibrate)
                 {
                     Handheld.Vibrate();
-                    _sndDash.Play();
-                    _psDash.Emit(50);
                 }
+#endif
             }else
             {
                 StartCoroutine(_cameraShake.Shake(0.1f, 0.07f));
@@ -161,8 +198,11 @@ public class Player : MonoBehaviour, IPlayer
 
         if (other.gameObject.CompareTag("bonus"))
         {
-            Debug.Log("bonus!");
             Destroy(other.gameObject);
+            _psDash.Emit(50);
+            _sndDash.clip = _audPickup;
+            _sndDash.Play();
+            srvSManager.BonusScore(500);
         }
     }
 
@@ -216,6 +256,7 @@ public class Player : MonoBehaviour, IPlayer
     {
         transform.position = _basePos;
         _state = 0;
+        isOnGround = false;
         _meshPlayer.sharedMaterials[1].color = CF._colList[_state];
         Invulnerability(true);
     }

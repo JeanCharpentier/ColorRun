@@ -1,7 +1,10 @@
 ﻿Explications héritage des listes ?
 
-Bug du reset 1 fois sur 2 ?
+Bug du reset 1 fois sur 2 ? => Bug de l'éditeur Unity ? Voir Garbage Collector ?
 
 
 
 // Mouvements Sine : transform.position = _startPosition + new Vector3(Mathf.Sin(Time.time), 0.0f, 0.0f);
+
+
+// Renderer.isVisible pour supprimer les decors + plateformes + objets ?
